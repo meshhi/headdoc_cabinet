@@ -36,7 +36,10 @@ export const TilesPage = () => {
 
   return(
     <>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{
+        width: '80%',
+        margin: '0 auto',
+      }}>
         <Grid item xs={8}>
           <Tile handleOpen={handleOpen} tileType="appoints"/>
         </Grid>

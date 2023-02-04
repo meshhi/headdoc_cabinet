@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchMoList } from '../../store/reducers/ActionCreators';
-// import { Grid, Item } from '@mui/material'
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+
 
 export const TilesPage = () => {
   // clear credentials watermark on all highcharts diagrams
@@ -21,20 +23,20 @@ export const TilesPage = () => {
 
   return(
     <>
-      {/* <Grid container spacing={2}>
+      <Grid container spacing={2}>
         <Grid item xs={8}>
-          <Item>xs=8</Item>
+          <span style={{border: '1px solid black', display: 'block'}}>TEXT</span>
         </Grid>
         <Grid item xs={4}>
-          <Item>xs=4</Item>
+          <span style={{border: '1px solid black', display: 'block'}}>TEXT</span>
         </Grid>
         <Grid item xs={4}>
-          <Item>xs=4</Item>
+          <span style={{border: '1px solid black', display: 'block'}}>TEXT</span>
         </Grid>
         <Grid item xs={8}>
-          <Item>xs=8</Item>
+          <span style={{border: '1px solid black', display: 'block'}}>TEXT</span>
         </Grid>
-      </Grid> */}
+      </Grid>
     </>
   )
 }

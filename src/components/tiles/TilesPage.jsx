@@ -40,16 +40,16 @@ export const TilesPage = () => {
         width: '80%',
         margin: '0 auto',
       }}>
-        <Grid item xs={8}>
+        <Grid item xs={12} md={6}>
           <Tile handleOpen={handleOpen} tileType="appoints"/>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={6}>
         <Tile handleOpen={handleOpen} tileType="2"/>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={6}>
         <Tile handleOpen={handleOpen} tileType="3"/>
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={12} md={6}>
         <Tile handleOpen={handleOpen} tileType="4"/>
         </Grid>
       </Grid>

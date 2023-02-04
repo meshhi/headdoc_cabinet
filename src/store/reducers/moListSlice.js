@@ -13,7 +13,7 @@ export const moListSlice = createSlice({
   name: "moList",
   initialState,
   reducers: {
-
+    
   },
   extraReducers: {
     [fetchMoList.pending.type]: (state) => {

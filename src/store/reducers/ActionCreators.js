@@ -20,7 +20,7 @@ export const fetchMoList = createAsyncThunk(
   
       const response = await axios(config);
   
-      return response.data;
+      return response.data.results;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message)
     }

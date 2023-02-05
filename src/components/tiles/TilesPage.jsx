@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 // redux
-import { fetchMoList } from '../../store/reducers/ActionCreators';
+import { fetchMoList } from '../../store/slices/ActionCreators';
 
 // components
 import Grid from '@mui/material/Grid';
@@ -13,6 +13,7 @@ import TileSkeleton from "./TileSkeleton";
 // tile pages
 import AppointmentsPage from "../indicator_pages/AppointmentsPage";
 import DoctorsSemdPage from "../indicator_pages/DoctorsSemdPage";
+import { diagram2SetDate } from "../../store/slices/diagramDatesSlice";
 
 
 export const TilesPage = () => {
@@ -25,6 +26,8 @@ export const TilesPage = () => {
   const dispatch = useDispatch();
   const {moList, isLoading, error} = useSelector(state => state.moList);
   const currentMo = moList.filter(mo => mo.id === moList.currentMoId)[0];
+
+  const {diagram1, diagram2, diagram3} = useSelector(state => state.diagramDates);
 
   // content for modal
   const [content, setContent] = useState({content: 'first'});
@@ -50,10 +53,10 @@ export const TilesPage = () => {
         margin: '0 auto',
       }}>
         <Grid item xs={12} md={6}>
-          <Tile handleOpen={handleOpen} tileType="appointments" children={<AppointmentsPage/>}/>
+          <Tile handleOpen={handleOpen} tileType="appointments" children={<AppointmentsPage/>} curDate={diagram1}/>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Tile handleOpen={handleOpen} tileType="doctorssemd" children={<DoctorsSemdPage/>}/>
+          <Tile handleOpen={handleOpen} tileType="doctorssemd" children={<DoctorsSemdPage/>} curDate={diagram2SetDate}/>
         </Grid>
         <Grid item xs={12} md={6}>
           <Tile handleOpen={handleOpen} tileType="3"/>

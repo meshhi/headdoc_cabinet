@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  diagram1: null,
-  diagram2: null,
+  diagram1: 'diagram1date',
+  diagram2: 'diagram2date',
   diagram3: null,
 };
 

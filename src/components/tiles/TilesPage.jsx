@@ -13,7 +13,7 @@ import TileSkeleton from "./TileSkeleton";
 // tile pages
 import AppointmentsPage from "../indicator_pages/AppointmentsPage";
 import DoctorsSemdPage from "../indicator_pages/DoctorsSemdPage";
-import { diagram2SetDate } from "../../store/slices/diagramDatesSlice";
+import { diagram1SetDate, diagram2SetDate, diagram3SetDate } from "../../store/slices/diagramDatesSlice";
 
 
 export const TilesPage = () => {
@@ -53,10 +53,10 @@ export const TilesPage = () => {
         margin: '0 auto',
       }}>
         <Grid item xs={12} md={6}>
-          <Tile handleOpen={handleOpen} tileType="appointments" children={<AppointmentsPage/>} curDate={diagram1}/>
+          <Tile handleOpen={handleOpen} tileType="appointments" children={<AppointmentsPage/>} curDate={diagram1} setDate={diagram1SetDate}/>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Tile handleOpen={handleOpen} tileType="doctorssemd" children={<DoctorsSemdPage/>} curDate={diagram2SetDate}/>
+          <Tile handleOpen={handleOpen} tileType="doctorssemd" children={<DoctorsSemdPage/>} curDate={diagram2} setDate={diagram2SetDate}/>
         </Grid>
         <Grid item xs={12} md={6}>
           <Tile handleOpen={handleOpen} tileType="3"/>

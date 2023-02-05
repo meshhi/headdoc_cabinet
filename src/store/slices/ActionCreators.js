@@ -17,7 +17,9 @@ export const fetchMoList = createAsyncThunk(
         // },
         // data: data,
       };
-  
+
+      return [{}]
+      
       const response = await axios(config);
   
       return response.data.results;

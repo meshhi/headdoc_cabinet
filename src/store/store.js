@@ -3,6 +3,6 @@ import moListReducer from './reducers/moListSlice';
 
 export const store = configureStore({
   reducer: {
-    moListReducer: moListReducer,
+    moList: moListReducer,
   },
 });

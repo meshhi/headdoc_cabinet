@@ -23,7 +23,7 @@ export const TilesPage = () => {
 
   //initiate data settings got from redux
   const dispatch = useDispatch();
-  const {moList, isLoading, error} = useSelector(state => state.moListReducer);
+  const {moList, isLoading, error} = useSelector(state => state.moList);
   const currentMo = moList.filter(mo => mo.id === moList.currentMoId)[0];
 
   // content for modal

@@ -1,9 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Fade } from '@mui/material';
 import { Slide } from '@mui/material';
 
 const style = {
@@ -19,9 +17,6 @@ const style = {
 };
 
 export default function TileModal({open, handleClose, content}) {
-  // const [open, setOpen] = React.useState(false);
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
 
   return (
     <div>

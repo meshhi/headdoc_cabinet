@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { useEffect } from 'react';
 
 export default function Tile({handleOpen, tileType, children, curDate, setDate}) {
   const dispatch = useDispatch();
@@ -15,13 +16,11 @@ export default function Tile({handleOpen, tileType, children, curDate, setDate})
   }
 
   const changeDateHandlerDecrease = (event) => {
-    console.log(curDate);
-
-    dispatch(setDate('GRAPHIC date CHANGED'));
+    dispatch(setDate(curDate - 604800000));
   }
 
   const changeDateHandlerInrease = (event) => {
-    dispatch(setDate('GRAPHIC date CHANGED'));
+    dispatch(setDate(curDate + 604800000));
   }
 
   return (

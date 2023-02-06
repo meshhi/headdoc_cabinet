@@ -19,11 +19,11 @@ export const fetchMoList = createAsyncThunk(
       };
 
       // return [{label:'first mo',}, {label:'second mo',}]
-      return [      { label: 'The Shawshank Redemption', year: 1994 },
-      { label: 'The Godfather', year: 1972 },
-      { label: 'The Godfather: Part II', year: 1974 },
-      { label: 'The Dark Knight', year: 2008 },
-      { label: '12 Angry Men', year: 1957 },]
+      // return [      { label: 'The Shawshank Redemption', year: 1994 },
+      // { label: 'The Godfather', year: 1972 },
+      // { label: 'The Godfather: Part II', year: 1974 },
+      // { label: 'The Dark Knight', year: 2008 },
+      // { label: '12 Angry Men', year: 1957 },]
 
       
       const response = await axios(config);

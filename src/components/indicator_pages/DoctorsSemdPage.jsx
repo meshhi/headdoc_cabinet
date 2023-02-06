@@ -3,21 +3,15 @@ import DoctorsSemdBar from "../diagrams/DoctorsSemd/DoctorsSemdBar";
 import DoctorsSemdBarSum from "../diagrams/DoctorsSemd/DoctorsSemdBarSum";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Tooltip from '@mui/material/Tooltip';
+import InfoLine from "./indicator_helpers/InfoLine";
 
 const DoctorsSemdPage = ({clear}) => {
 
   return(
     <>
-      <Grid>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          1.2.6.2
-        </Typography>
-        <Tooltip title="Delete">
-          <InfoOutlinedIcon/>
-        </Tooltip>
-      </Grid>
+      <InfoLine indicatorNumber="1.2.6.2" tooltipText="Процент передачи СЭМД врачами"/>
       <Typography variant="h5" component="div">
-      Доля врачей, у которых не менее 2 СЭМД
+        Доля врачей, у которых не менее 2 СЭМД
       </Typography>
       <DoctorsSemdBarSum clear={clear}/>
     </>

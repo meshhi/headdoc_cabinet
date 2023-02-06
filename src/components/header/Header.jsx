@@ -17,6 +17,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Autocomplete, TextField, CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
+import { useMemo } from "react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -66,7 +67,17 @@ export default function PrimarySearchAppBar() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   // mo list state
-  const {moList, isLoading, error} = useSelector(state => state.moList);
+  // const {moList, isLoading, error} = useSelector(state => {console.log(state.moList.moList);return state.moList});
+
+  // const moListChoose = useMemo((moList) => {
+  //   console.log(moList)
+  //   return !isLoading 
+  //     ?
+  //     moList.map(mo => ({
+  //       label: mo.name,
+  //     }))
+  //     : false
+  // }, [moList])
 
 
 
@@ -195,10 +206,10 @@ export default function PrimarySearchAppBar() {
               inputProps={{ "aria-label": "search" }}
             />
           </Search> */}
-          <Autocomplete
+          {/* <Autocomplete
             disablePortal
             id="combo-box-demo"
-            options={moList}
+            options={moListChoose}
             sx={{ width: 300 }}
             renderInput={(params) => <TextField
               {...params}
@@ -214,7 +225,7 @@ export default function PrimarySearchAppBar() {
               }}
             />}
             loading={true}
-          />
+          /> */}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton

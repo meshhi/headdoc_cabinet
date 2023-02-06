@@ -1,12 +1,17 @@
+import React from 'react';
+
 // hooks
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 
 // redux
 import { fetchMoList } from '../../store/slices/ActionCreators';
 
 // components
 import Grid from '@mui/material/Grid';
+import { Autocomplete } from "@mui/material";
+import { CircularProgress } from '@mui/material';
+import { TextField } from '@mui/material';
 import Tile from './Tile'
 import TileModal from "./TileModal";
 import TileSkeleton from "./TileSkeleton";
@@ -27,6 +32,16 @@ export const TilesPage = () => {
   const dispatch = useDispatch();
   const {moList, isLoading, error} = useSelector(state => state.moList);
   const currentMo = moList.filter(mo => mo.id === moList.currentMoId)[0];
+
+  // const moListChoose = useMemo((moList) => {
+  //   console.log(moList)
+  //   return !isLoading 
+  //     ?
+  //     moList.map(mo => ({
+  //       label: mo.name,
+  //     }))
+  //     : false
+  // }, [moList])
 
   const {diagram1, diagram2, diagram3} = useSelector(state => state.diagramDates);
 
@@ -52,17 +67,43 @@ export const TilesPage = () => {
         width: '80%',
         margin: '0 auto',
       }}>
-        <Grid item xs={12} md={6}>
-          <Tile handleOpen={handleOpen} tileType="appointments" children={<AppointmentsPage clear={clearHighchartsCredentials}/>} curDate={diagram1} setDate={diagram1SetDate}/>
+        <Grid item xs={12}>
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={moList}
+            sx={{ width: '100%' }}
+            renderInput={(params) => <TextField
+              {...params}
+              label="Asynchronous"
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <React.Fragment>
+                    {isLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                    {params.InputProps.endAdornment}
+                  </React.Fragment>
+                ),
+              }}
+            />}
+            loading={true}
+          />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Tile handleOpen={handleOpen} tileType="doctorssemd" children={<DoctorsSemdPage clear={clearHighchartsCredentials}/>} curDate={diagram2} setDate={diagram2SetDate}/>
+        <Grid container spacing={2} item xs={12} md={6}>
+          <Grid item xs={12}>
+            <Tile handleOpen={handleOpen} tileType="appointments" children={<AppointmentsPage clear={clearHighchartsCredentials}/>} curDate={diagram1} setDate={diagram1SetDate}/>
+          </Grid>
+          <Grid item xs={12}>
+            <Tile handleOpen={handleOpen} tileType="doctorssemd" children={<DoctorsSemdPage clear={clearHighchartsCredentials}/>} curDate={diagram2} setDate={diagram2SetDate}/>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Tile handleOpen={handleOpen} tileType="semdsmspage" children={<SemdsMSPage clear={clearHighchartsCredentials}/>} curDate={diagram3} setDate={diagram3SetDate}/>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Tile handleOpen={handleOpen} tileType="4"/>
+        <Grid container spacing={2} item xs={12} md={6}>
+          <Grid item xs={12}>
+            <Tile handleOpen={handleOpen} tileType="semdsmspage" children={<SemdsMSPage clear={clearHighchartsCredentials}/>} curDate={diagram3} setDate={diagram3SetDate}/>
+          </Grid>
+          <Grid item xs={12}>
+            <Tile handleOpen={handleOpen} tileType="4"/>
+          </Grid>
         </Grid>
       </Grid>
       <TileModal open={open} handleClose={handleClose} content={content}></TileModal>

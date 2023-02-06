@@ -1,8 +1,6 @@
 import { Typography, Grid } from "@mui/material"
 import DoctorsSemdBar from "../diagrams/DoctorsSemd/DoctorsSemdBar";
 import DoctorsSemdBarSum from "../diagrams/DoctorsSemd/DoctorsSemdBarSum";
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import Tooltip from '@mui/material/Tooltip';
 import InfoLine from "./indicator_helpers/InfoLine";
 
 const DoctorsSemdPage = ({clear}) => {
@@ -14,6 +12,7 @@ const DoctorsSemdPage = ({clear}) => {
         Доля врачей, у которых не менее 2 СЭМД
       </Typography>
       <DoctorsSemdBarSum clear={clear}/>
+      <DoctorsSemdBar clear={clear}/>
     </>
   )
 }

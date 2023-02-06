@@ -1,8 +1,13 @@
 
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { useEffect } from 'react';
 
-const DoctorsSemdBar = () => {
+const DoctorsSemdBar = ({clear, resultPercent}) => {
+  useEffect(() => {
+    clear();
+  }, [])
+
   const options = {
     chart: {
       type: 'bar',

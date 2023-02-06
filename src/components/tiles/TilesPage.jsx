@@ -33,15 +33,17 @@ export const TilesPage = () => {
   const {moList, isLoading, error} = useSelector(state => state.moList);
   const currentMo = moList.filter(mo => mo.id === moList.currentMoId)[0];
 
-  // const moListChoose = useMemo((moList) => {
-  //   console.log(moList)
-  //   return !isLoading 
-  //     ?
-  //     moList.map(mo => ({
-  //       label: mo.name,
-  //     }))
-  //     : false
-  // }, [moList])
+  const moListChoose = useSelector(state => {
+    return state.moList.moList
+    .filter(mo => mo.id === 417 || mo.parent === 417)
+    .map(mo => 
+      ({
+      label: mo.name,
+      id: mo.id,
+    }))
+  });
+
+  console.log(moListChoose)
 
   const {diagram1, diagram2, diagram3} = useSelector(state => state.diagramDates);
 
@@ -71,11 +73,14 @@ export const TilesPage = () => {
           <Autocomplete
             disablePortal
             id="combo-box-demo"
-            options={moList}
+            options={moListChoose}
+            getOptionLabel={
+              option => option.label
+            }
             sx={{ width: '100%' }}
             renderInput={(params) => <TextField
               {...params}
-              label="Asynchronous"
+              label="Выберите МО..."
               InputProps={{
                 ...params.InputProps,
                 endAdornment: (

@@ -177,7 +177,7 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            MUI
+            Дневник успеваемости
           </Typography>
           <Search>
             <SearchIconWrapper>

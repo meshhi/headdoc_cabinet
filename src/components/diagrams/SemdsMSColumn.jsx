@@ -2,16 +2,17 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { useEffect } from 'react';
 
-const DoctorsSemdBarSum = ({clear, resultPercent}) => {
+const SemdsMSColumn = ({clear}) => {
+
   useEffect(() => {
     clear();
-  }, [])
+  }, []);
 
   const options = {
     chart: {
-      type: 'bar',
+      type: 'column',
       backgroundColor: '#fcfcfc',
-      height: "10%",
+      height: "100%",
     },
     title: null,
     legend: {
@@ -23,9 +24,9 @@ const DoctorsSemdBarSum = ({clear, resultPercent}) => {
       useHTML: true,
     },
 
-
     xAxis: [{
-      categories: ['Врач'],
+      // список специальностей массивом
+      categories: ['МСР', 'МСС', 'МСЭ',],
       title: {
           text: null
       },
@@ -34,7 +35,7 @@ const DoctorsSemdBarSum = ({clear, resultPercent}) => {
   ],
     yAxis: [{
       min: 0,
-      max: 100,
+      max: 1000,
       title: {
           text: '%',
           align: 'middle',
@@ -47,18 +48,43 @@ const DoctorsSemdBarSum = ({clear, resultPercent}) => {
       gridLineColor: "#fcfcfc",
     },
   ],
-
-
     credits: {
       enabled: false,
     },
-    series: [{
-      type: "bar",
-      name: null,
-      color: "#009425",
-      data: [90]
+    series: [
+    {
+      color: 'rgba(158, 159, 163, 0.5)',
+      pointPlacement: 0.2,
+      linkedTo: 'main',
+      data: [
+        ['МСС', 60],
+        ['МСЭ', 200],
+        ['МСР', 295]
+    ],
+      name: 'Предыдущая дата'
+    }, 
+    
+    {
+      color: '#009425',
+      name: 'Текущая дата',
+      id: 'main',
+      dataSorting: {
+        enabled: true,
+        matchByName: true
       },
+      dataLabels: [{
+        enabled: false,
+        inside: true,
+        style: {
+          fontSize: '16px'
+        }
+      }],
+      data: [
+        ['МСС', 45],
+        ['МСЭ', 374],
+        ['МСР', 634]
     ]
+    }]
 
   };
 
@@ -70,4 +96,4 @@ const DoctorsSemdBarSum = ({clear, resultPercent}) => {
   )
 };
 
-export default DoctorsSemdBarSum;
+export default SemdsMSColumn;

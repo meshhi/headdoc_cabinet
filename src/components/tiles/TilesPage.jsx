@@ -1,6 +1,6 @@
 // hooks
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 // redux
 import { fetchMoList } from '../../store/reducers/ActionCreators';
@@ -13,13 +13,14 @@ import TileSkeleton from "./TileSkeleton";
 // tile pages
 import AppointmentsPage from "../indicator_pages/AppointmentsPage";
 import DoctorsSemdPage from "../indicator_pages/DoctorsSemdPage";
+import SemdsMSPage from "../indicator_pages/SemdsMSPage";
 
 
 export const TilesPage = () => {
   // clear credentials watermark on all highcharts diagrams
-  const clearHighchartsCredentials = () => {
+  const clearHighchartsCredentials = useCallback(() => {
     document.querySelectorAll('.highcharts-credits').forEach((chartCredentials) => chartCredentials.style.display = 'none');
-  }
+  });
 
   //initiate data settings got from redux
   const dispatch = useDispatch();
@@ -39,7 +40,6 @@ export const TilesPage = () => {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    clearHighchartsCredentials();
     dispatch(fetchMoList());
   }, []);
 
@@ -50,13 +50,13 @@ export const TilesPage = () => {
         margin: '0 auto',
       }}>
         <Grid item xs={12} md={6}>
-          <Tile handleOpen={handleOpen} tileType="appointments" children={<AppointmentsPage/>}/>
+          <Tile handleOpen={handleOpen} tileType="appointments" children={<AppointmentsPage clear={clearHighchartsCredentials}/>}/>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Tile handleOpen={handleOpen} tileType="doctorssemd" children={<DoctorsSemdPage/>}/>
+          <Tile handleOpen={handleOpen} tileType="doctorssemd" children={<DoctorsSemdPage clear={clearHighchartsCredentials}/>}/>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Tile handleOpen={handleOpen} tileType="3"/>
+        <Tile handleOpen={handleOpen} tileType="semdsmspage" children={<SemdsMSPage clear={clearHighchartsCredentials}/>}/>
         </Grid>
         <Grid item xs={12} md={6}>
           <Tile handleOpen={handleOpen} tileType="4"/>

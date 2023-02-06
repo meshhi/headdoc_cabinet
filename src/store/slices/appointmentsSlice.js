@@ -10,10 +10,10 @@ const initialState = {
 };
 
 export const appointmentsSlice = createSlice({
-  name: "moList",
+  name: "appointments",
   initialState,
   reducers: {
-    
+
   },
   extraReducers: {
     [fetchAppointments.pending.type]: (state) => {

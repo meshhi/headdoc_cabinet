@@ -6,6 +6,7 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 
 // redux
 import { fetchMoList, fetchAppointments } from '../../store/slices/ActionCreators';
+import { setCurrentMo } from '../../store/slices/moListSlice';
 
 // components
 import Grid from '@mui/material/Grid';
@@ -31,8 +32,11 @@ export const TilesPage = () => {
   //initiate data settings got from redux
   const dispatch = useDispatch();
   const {moList, isLoading, error} = useSelector(state => state.moList);
-  const currentMoId = useSelector(state => state.moList.moList.currentMoId);
-
+  const currentMo = useSelector(state => {
+    const currentMoId = state.moList.currentMoId;
+    const currentMoName = state.moList.currentMoName;
+    return {label: currentMoName, id: currentMoId };
+  });
   const moListChoose = useSelector(state => {
     return state.moList.moList
       .filter(mo => mo.id === 417 || mo.parent === 417)
@@ -57,9 +61,15 @@ export const TilesPage = () => {
     }
   const handleClose = () => setOpen(false);
 
+  // autocomplete
+  const changeHandler = (event, newValue) => {
+    dispatch(setCurrentMo({id: newValue.id, name: newValue.label}));
+  }
+
   useEffect(() => {
     dispatch(fetchMoList());
     dispatch(fetchAppointments());
+    dispatch(setCurrentMo({id: 417, name: 'Архангельская область'}));
   }, []);
 
   const grid = (
@@ -69,6 +79,7 @@ export const TilesPage = () => {
         margin: '0 auto',
       }}>
         <Grid item xs={12}>
+          
           <Autocomplete
             disablePortal
             id="combo-box-demo"
@@ -76,6 +87,12 @@ export const TilesPage = () => {
             getOptionLabel={
               option => option.label
             }
+
+            value={currentMo}
+            onChange={changeHandler}
+            // inputValue={inputValue}
+            // onInputChange={inputChangeHandler}
+
             sx={{ width: '100%' }}
             renderInput={(params) => <TextField
               {...params}
@@ -90,7 +107,7 @@ export const TilesPage = () => {
                 ),
               }}
             />}
-            loading={true}
+            loading={isLoading}
           />
         </Grid>
         <Grid container spacing={2} item xs={12} md={6}>
@@ -105,9 +122,9 @@ export const TilesPage = () => {
           <Grid item xs={12}>
             <Tile handleOpen={handleOpen} tileType="semdsmspage" children={<SemdsMSPage clear={clearHighchartsCredentials}/>} curDate={diagram3} setDate={diagram3SetDate}/>
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <Tile handleOpen={handleOpen} tileType="4"/>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
       <TileModal open={open} handleClose={handleClose} content={content}></TileModal>

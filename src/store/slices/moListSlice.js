@@ -3,7 +3,8 @@ import { fetchMoList } from "./ActionCreators";
 
 const initialState = {
   moList: [],
-  currentMoId: 417,
+  currentMoId: null,
+  currentMoName: '',
   isLoading: false,
   error: false,
 };
@@ -12,7 +13,11 @@ export const moListSlice = createSlice({
   name: "moList",
   initialState,
   reducers: {
-    
+    setCurrentMo(state, action) {
+      // ✅ This "mutating" code is okay inside of createSlice!
+      state.currentMoId = action.payload.id;
+      state.currentMoName = action.payload.name;
+    },
   },
   extraReducers: {
     [fetchMoList.pending.type]: (state) => {
@@ -29,5 +34,7 @@ export const moListSlice = createSlice({
     }
   }
 })
+
+export const {setCurrentMo} = moListSlice.actions;
 
 export default moListSlice.reducer;

@@ -20,7 +20,7 @@ export const fetchMoList = createAsyncThunk(
 
       const response = await axios(config);
   
-      return response.data.results;
+      return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message)
     }
@@ -45,7 +45,7 @@ export const fetchAppointments = createAsyncThunk(
       
       const response = await axios(config);
   
-      return response.data.results;
+      return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message)
     }

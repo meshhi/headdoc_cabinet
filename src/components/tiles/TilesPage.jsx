@@ -70,6 +70,9 @@ export const TilesPage = () => {
     dispatch(fetchMoList());
     dispatch(fetchAppointments());
     dispatch(setCurrentMo({id: 417, name: 'Архангельская область'}));
+    dispatch(diagram1SetDate(Number(new Date())));
+    dispatch(diagram2SetDate(Number(new Date())));
+    dispatch(diagram3SetDate(Number(new Date())));
   }, []);
 
   const grid = (

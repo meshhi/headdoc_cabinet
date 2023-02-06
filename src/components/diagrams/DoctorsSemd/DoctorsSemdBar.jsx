@@ -11,7 +11,7 @@ const DoctorsSemdBar = ({clear, resultPercent}) => {
   const options = {
     chart: {
       type: 'bar',
-      backgroundColor: '#fcfcfc',
+      backgroundColor: '#fff',
       reflow: true,
     },
     title: null,

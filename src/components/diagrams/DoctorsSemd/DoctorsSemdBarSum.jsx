@@ -10,7 +10,7 @@ const DoctorsSemdBarSum = ({clear, resultPercent}) => {
   const options = {
     chart: {
       type: 'bar',
-      backgroundColor: '#fcfcfc',
+      backgroundColor: '#fff',
       height: "10%",
     },
     title: null,

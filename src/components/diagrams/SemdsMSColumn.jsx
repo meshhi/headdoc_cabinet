@@ -11,7 +11,7 @@ const SemdsMSColumn = ({clear}) => {
   const options = {
     chart: {
       type: 'column',
-      backgroundColor: '#fcfcfc',
+      backgroundColor: '#fff',
       height: "100%",
     },
     title: null,

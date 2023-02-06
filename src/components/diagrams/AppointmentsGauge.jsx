@@ -16,7 +16,7 @@ const AppointmentsGauge = ({clear, resultPercent}) => {
   const options = {
     chart: {
       type: 'solidgauge',
-      backgroundColor: '#fcfcfc',
+      backgroundColor: '#fff',
       // spacingBottom: 3,
       // height: "50%",
       // width: "100%",

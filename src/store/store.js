@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import moListReducer from './reducers/moListSlice';
+import moListReducer from './slices/moListSlice';
+import diagramDatesReducer from './slices/diagramDatesSlice';
 
 export const store = configureStore({
   reducer: {
-    moListReducer: moListReducer,
+    moList: moListReducer,
+    diagramDates: diagramDatesReducer,
   },
 });

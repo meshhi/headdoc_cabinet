@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useCallback, useMemo } from "react";
 
 // redux
-import { fetchMoList } from '../../store/slices/ActionCreators';
+import { fetchMoList, fetchAppointments } from '../../store/slices/ActionCreators';
 
 // components
 import Grid from '@mui/material/Grid';
@@ -31,20 +31,18 @@ export const TilesPage = () => {
   //initiate data settings got from redux
   const dispatch = useDispatch();
   const {moList, isLoading, error} = useSelector(state => state.moList);
-  const currentMo = moList.filter(mo => mo.id === moList.currentMoId)[0];
+  const currentMoId = useSelector(state => state.moList.moList.currentMoId);
 
   const moListChoose = useSelector(state => {
     return state.moList.moList
-    .filter(mo => mo.id === 417 || mo.parent === 417)
-    .map(mo => 
-      ({
-      label: mo.name,
-      id: mo.id,
-    }))
+      .filter(mo => mo.id === 417 || mo.parent === 417)
+      .map(mo => 
+        ({
+        label: mo.name,
+        id: mo.id,
+      }))
   });
-
-  console.log(moListChoose)
-
+  
   const {diagram1, diagram2, diagram3} = useSelector(state => state.diagramDates);
 
   // content for modal
@@ -61,6 +59,7 @@ export const TilesPage = () => {
 
   useEffect(() => {
     dispatch(fetchMoList());
+    dispatch(fetchAppointments());
   }, []);
 
   const grid = (

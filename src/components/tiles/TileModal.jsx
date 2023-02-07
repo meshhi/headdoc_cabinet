@@ -16,7 +16,7 @@ const style = {
   p: 4,
 };
 
-export default function TileModal({open, handleClose, content}) {
+export default function TileModal({open, handleClose, children}) {
 
   return (
     <div>
@@ -36,7 +36,7 @@ export default function TileModal({open, handleClose, content}) {
               Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {content.content}
+            {children}
             </Typography>
           </Box>
         </Slide>

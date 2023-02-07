@@ -22,6 +22,10 @@ import DoctorsSemdPage from "../indicator_pages/DoctorsSemdPage";
 import SemdsMSPage from "../indicator_pages/SemdsMSPage";
 import { diagram1SetDate, diagram2SetDate, diagram3SetDate } from "../../store/slices/diagramDatesSlice";
 import dateConverter from '../../utils/dateConverter';
+import AppointmentsDetails from '../indicator_details/AppointmentsDetails';
+import DoctorsSemdDetails from '../indicator_details/DoctorsSemdDetails';
+import SemdsMSDetails from '../indicator_details/SemdsMSDetails';
+import ErrorMsg from '../indicator_pages/indicator_helpers/ErrorMsg';
 
 
 export const TilesPage = () => {
@@ -47,18 +51,16 @@ export const TilesPage = () => {
         id: mo.id,
       }))
   });
-  
   const {diagram1, diagram2, diagram3} = useSelector(state => state.diagramDates);
 
   // content for modal
-  const [content, setContent] = useState({content: 'first'});
-
+  const [content, setContent] = useState("1");
   //modal state
   const [open, setOpen] = useState(false);
-  const handleOpen = (event) => 
-    {
+  const handleOpen = (event) => {
       setOpen(true);
-      setContent({content: event.target.id})
+      setContent(event.target.id);
+      console.log(event.target.id)
     }
   const handleClose = () => setOpen(false);
 
@@ -67,6 +69,7 @@ export const TilesPage = () => {
     dispatch(setCurrentMo({id: newValue.id, name: newValue.label}));
   }
 
+  // effects
   useEffect(() => {
     dispatch(fetchMoList());
     dispatch(setCurrentMo({id: 417, name: 'Архангельская область'}));
@@ -85,7 +88,6 @@ export const TilesPage = () => {
         margin: '0 auto',
       }}>
         <Grid item xs={12}>
-          
           <Autocomplete
             disablePortal
             id="combo-box-demo"
@@ -93,12 +95,8 @@ export const TilesPage = () => {
             getOptionLabel={
               option => option.label
             }
-
             value={currentMo}
             onChange={changeHandler}
-            // inputValue={inputValue}
-            // onInputChange={inputChangeHandler}
-
             sx={{ width: '100%' }}
             renderInput={(params) => <TextField
               {...params}
@@ -119,23 +117,35 @@ export const TilesPage = () => {
         <Grid container spacing={2} item xs={12} md={6}>
           <Grid item xs={12}>
             <Tile curDate={diagram1} setDate={diagram1SetDate}>
-              <AppointmentsPage clear={clearHighchartsCredentials} handleOpen={handleOpen} tileType="appointments"/>
+              <AppointmentsPage clear={clearHighchartsCredentials} handleOpen={handleOpen}/>
             </Tile>
           </Grid>
           <Grid item xs={12}>
-            <Tile handleOpen={handleOpen} tileType="doctorssemd" children={<DoctorsSemdPage clear={clearHighchartsCredentials}/>} curDate={diagram2} setDate={diagram2SetDate}/>
+            <Tile curDate={diagram2} setDate={diagram2SetDate}>
+              <DoctorsSemdPage clear={clearHighchartsCredentials} handleOpen={handleOpen}/>
+            </Tile>
           </Grid>
         </Grid>
         <Grid container spacing={2} item xs={12} md={6}>
           <Grid item xs={12}>
-            <Tile handleOpen={handleOpen} tileType="semdsmspage" children={<SemdsMSPage clear={clearHighchartsCredentials}/>} curDate={diagram3} setDate={diagram3SetDate}/>
+            <Tile handleOpen={handleOpen} curDate={diagram3} setDate={diagram3SetDate}>
+              <SemdsMSPage clear={clearHighchartsCredentials}/>
+            </Tile>
           </Grid>
-          {/* <Grid item xs={12}>
-            <Tile handleOpen={handleOpen} tileType="4"/>
-          </Grid> */}
         </Grid>
       </Grid>
-      <TileModal open={open} handleClose={handleClose} content={content}></TileModal>
+      <TileModal open={open} handleClose={handleClose}>
+        {
+          // это ужасная конструкция, извините...
+          content === "1"
+            ? <AppointmentsDetails />
+            : content === "2"
+              ? <DoctorsSemdDetails />
+              : content === "3"
+                ? <SemdsMSDetails />
+                : <ErrorMsg errorTitle="Неправильная модалка" errorContent="Ну реально неправильная, алло"/>
+        }
+      </TileModal>
     </>
   )
 
@@ -144,7 +154,7 @@ export const TilesPage = () => {
       width: '80%',
       margin: '0 auto',
     }}>
-    <div>ERROR</div>
+    <ErrorMsg errorTitle="Не удалось загрузить данные" errorContent="Обратитесь в тех.поддержку http://cspp.zdrav29.ru/"/>
     </Grid>
   )
 

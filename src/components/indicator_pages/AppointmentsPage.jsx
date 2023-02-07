@@ -12,7 +12,7 @@ import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrow
 import { Box } from "@mui/material";
 import { Button } from "@mui/material";
 
-const AppointmentsPage = ({clear, handleOpen, tileType}) => {
+const AppointmentsPage = ({clear, handleOpen}) => {
   const {appointments, isLoading, error} = useSelector(state => state.appointments);
   const {currentMoId, currentMoName} = useSelector(state => ({currentMoId: state.moList.currentMoId, currentMoName: state.moList.currentMoName}));
   const {resultPercent, percentDiff} = useSelector(state => {
@@ -29,7 +29,7 @@ const AppointmentsPage = ({clear, handleOpen, tileType}) => {
       <InfoLine indicatorNumber="1.2.6.1" tooltipText="Процент дистанционной записи ко врачу"/>
       <Typography sx={{'display': 'flex', 'justifyContent': 'space-between'}} variant="h5" component="div">
         Записались дистанционно
-        <Button id={tileType} size="small" onClick={handleOpen}>Подробно</Button>
+        <Button id="1" size="small" onClick={handleOpen}>Подробно</Button>
       </Typography>
       
       <Typography variant="h5" component="div">

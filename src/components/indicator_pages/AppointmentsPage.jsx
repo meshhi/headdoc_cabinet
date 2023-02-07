@@ -54,12 +54,12 @@ const AppointmentsPage = ({clear, handleOpen}) => {
           <Typography variant="h5" component="div">
             {
               percentDiff > 0 
-                ? <Box sx={{color: "green"}}>
+                ? <Box sx={{color: "green", display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                     <KeyboardDoubleArrowUpIcon />
                     +{percentDiff.toFixed(2)}%
                   </Box>
                 : percentDiff < 0
-                  ? <Box sx={{color: "red"}}>
+                  ? <Box sx={{color: "red", display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                       <KeyboardDoubleArrowDownIcon />
                       {percentDiff.toFixed(2)}%
                     </Box>

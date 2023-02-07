@@ -3,8 +3,6 @@ import { fetchAppointments } from "./ActionCreators";
 
 const initialState = {
   appointments: [],
-  currentMoAppointmentsMain: [],
-  currentMoAppointmentsUnits: [],
   isLoading: false,
   error: false,
 };

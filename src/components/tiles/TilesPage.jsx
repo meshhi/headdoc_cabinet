@@ -28,7 +28,7 @@ import SemdsMSDetails from '../indicator_details/SemdsMSDetails';
 import ErrorMsg from '../indicator_pages/indicator_helpers/ErrorMsg';
 
 
-export const TilesPage = () => {
+export const TilesPage = ({modalPortal}) => {
   // clear credentials watermark on all highcharts diagrams
   const clearHighchartsCredentials = useCallback(() => {
     document.querySelectorAll('.highcharts-credits').forEach((chartCredentials) => chartCredentials.style.display = 'none');
@@ -60,7 +60,6 @@ export const TilesPage = () => {
   const handleOpen = (event) => {
       setOpen(true);
       setContent(event.target.id);
-      console.log(event.target.id)
     }
   const handleClose = () => setOpen(false);
 
@@ -83,55 +82,50 @@ export const TilesPage = () => {
 
   const grid = (
     <>
-      <Grid container spacing={2} sx={{
-        width: '80%',
-        margin: '0 auto',
-      }}>
+      <Grid item xs={12}>
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={moListChoose}
+          getOptionLabel={
+            option => option.label
+          }
+          value={currentMo}
+          onChange={changeHandler}
+          sx={{ width: '100%' }}
+          renderInput={(params) => <TextField
+            {...params}
+            label="Выберите МО..."
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <React.Fragment>
+                  {isLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                  {params.InputProps.endAdornment}
+                </React.Fragment>
+              ),
+            }}
+          />}
+          loading={isLoading}
+        />
+      </Grid>
+      <Grid container spacing={2} item xs={12} md={6}>
         <Grid item xs={12}>
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={moListChoose}
-            getOptionLabel={
-              option => option.label
-            }
-            value={currentMo}
-            onChange={changeHandler}
-            sx={{ width: '100%' }}
-            renderInput={(params) => <TextField
-              {...params}
-              label="Выберите МО..."
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <React.Fragment>
-                    {isLoading ? <CircularProgress color="inherit" size={20} /> : null}
-                    {params.InputProps.endAdornment}
-                  </React.Fragment>
-                ),
-              }}
-            />}
-            loading={isLoading}
-          />
+          <Tile curDate={diagram1} setDate={diagram1SetDate}>
+            <AppointmentsPage clear={clearHighchartsCredentials} handleOpen={handleOpen}/>
+          </Tile>
         </Grid>
-        <Grid container spacing={2} item xs={12} md={6}>
-          <Grid item xs={12}>
-            <Tile curDate={diagram1} setDate={diagram1SetDate}>
-              <AppointmentsPage clear={clearHighchartsCredentials} handleOpen={handleOpen}/>
-            </Tile>
-          </Grid>
-          <Grid item xs={12}>
-            <Tile curDate={diagram2} setDate={diagram2SetDate}>
-              <DoctorsSemdPage clear={clearHighchartsCredentials} handleOpen={handleOpen}/>
-            </Tile>
-          </Grid>
+        <Grid item xs={12}>
+          <Tile curDate={diagram2} setDate={diagram2SetDate}>
+            <DoctorsSemdPage clear={clearHighchartsCredentials} handleOpen={handleOpen}/>
+          </Tile>
         </Grid>
-        <Grid container spacing={2} item xs={12} md={6}>
-          <Grid item xs={12}>
-            <Tile handleOpen={handleOpen} curDate={diagram3} setDate={diagram3SetDate}>
-              <SemdsMSPage clear={clearHighchartsCredentials}/>
-            </Tile>
-          </Grid>
+      </Grid>
+      <Grid container spacing={2} item xs={12} md={6}>
+        <Grid item xs={12}>
+          <Tile curDate={diagram3} setDate={diagram3SetDate}>
+            <SemdsMSPage clear={clearHighchartsCredentials} handleOpen={handleOpen}/>
+          </Tile>
         </Grid>
       </Grid>
       <TileModal open={open} handleClose={handleClose}>
@@ -145,7 +139,7 @@ export const TilesPage = () => {
                 ? <SemdsMSDetails />
                 : <ErrorMsg errorTitle="Неправильная модалка" errorContent="Ну реально неправильная, алло"/>
         }
-      </TileModal>
+      </TileModal>  
     </>
   )
 
@@ -154,7 +148,7 @@ export const TilesPage = () => {
       width: '80%',
       margin: '0 auto',
     }}>
-    <ErrorMsg errorTitle="Не удалось загрузить данные" errorContent="Обратитесь в тех.поддержку http://cspp.zdrav29.ru/"/>
+      <ErrorMsg errorTitle="Не удалось загрузить данные" errorContent="Обратитесь в тех.поддержку http://cspp.zdrav29.ru/"/>
     </Grid>
   )
 

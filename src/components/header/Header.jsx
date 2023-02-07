@@ -10,6 +10,7 @@ import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
@@ -17,7 +18,8 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Autocomplete, TextField, CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
+import { Link } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -66,20 +68,8 @@ export default function PrimarySearchAppBar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  // mo list state
-  // const {moList, isLoading, error} = useSelector(state => {console.log(state.moList.moList);return state.moList});
-
-  // const moListChoose = useMemo((moList) => {
-  //   console.log(moList)
-  //   return !isLoading 
-  //     ?
-  //     moList.map(mo => ({
-  //       label: mo.name,
-  //     }))
-  //     : false
-  // }, [moList])
-
-
+  const adminRef = useRef(null);
+  const mainRef = useRef(null);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -193,39 +183,28 @@ export default function PrimarySearchAppBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
+            sx={{ display: { xs: "none", sm: "block" }, cursor: 'pointer' }}
+            onClick={() => {
+              mainRef.current.click();
+            }}
           >
             Дневник успеваемости
+            <Link to="/" ref={mainRef}></Link>
           </Typography>
-          {/* <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search> */}
-          {/* <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={moListChoose}
-            sx={{ width: 300 }}
-            renderInput={(params) => <TextField
-              {...params}
-              label="Asynchronous"
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <React.Fragment>
-                    {isLoading ? <CircularProgress color="inherit" size={20} /> : null}
-                    {params.InputProps.endAdornment}
-                  </React.Fragment>
-                ),
-              }}
-            />}
-            loading={true}
-          /> */}
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            sx={{ mr: 2, ml: 2 }}
+            onClick={() => {
+              adminRef.current.click();
+            }}
+          >
+            <AdminPanelSettingsIcon />
+            <Link to="/admin" ref={adminRef}></Link>
+          </IconButton>
+
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton

@@ -6,11 +6,13 @@ import InfoLine from "./indicator_helpers/InfoLine";
 import { useSelector } from "react-redux";
 import CircularProgress from '@mui/material/CircularProgress';
 import ErrorMsg from "./indicator_helpers/ErrorMsg";
+import NoDataMsg from "./indicator_helpers/NoDataMsg";
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import { Box } from "@mui/material";
+import { Button } from "@mui/material";
 
-const AppointmentsPage = ({clear}) => {
+const AppointmentsPage = ({clear, handleOpen, tileType}) => {
   const {appointments, isLoading, error} = useSelector(state => state.appointments);
   const {currentMoId, currentMoName} = useSelector(state => ({currentMoId: state.moList.currentMoId, currentMoName: state.moList.currentMoName}));
   const {resultPercent, percentDiff} = useSelector(state => {
@@ -25,24 +27,28 @@ const AppointmentsPage = ({clear}) => {
   return(
     <>
       <InfoLine indicatorNumber="1.2.6.1" tooltipText="Процент дистанционной записи ко врачу"/>
-      <Typography variant="h5" component="div">
+      <Typography sx={{'display': 'flex', 'justifyContent': 'space-between'}} variant="h5" component="div">
         Записались дистанционно
+        <Button id={tileType} size="small" onClick={handleOpen}>Подробно</Button>
       </Typography>
+      
       <Typography variant="h5" component="div">
         {currentMoName}
       </Typography>
       <Grid container spacing={1}>
-        <Grid item xs={12} md={8}>      
+        <Grid item xs={12} md={8} sx={{ 'height': 400 }} justifyContent="center" alignItems="center">    
         {
           !isLoading 
             ? error 
-              ? <ErrorMsg errorTitle="Ошибка при загрузке данных" errorContent={error}/>
-              : <AppointmentsGauge clear={clear} resultPercent={resultPercent}/>
-            : <CircularProgress />
-        }
+              ? <Box sx={{ 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center', 'height': '100%'}}><ErrorMsg errorTitle="Ошибка при загрузке данных" errorContent={error}/></Box>
+              : appointments.length 
+                ? <AppointmentsGauge clear={clear} resultPercent={resultPercent}/>
+                : <Box sx={{ 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center', 'height': '100%'}}><NoDataMsg errorTitle="Нет данных" errorContent="За указанную дату отсутствуют данные в БД"/></Box>
+            : <Box sx={{ 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center', 'height': '100%'}}><CircularProgress/></Box>
+        } 
         </Grid>
-        <Grid container item xs={12} md={4} direction="column" justifyContent="space-evenly" alignItems="center">      
-          <Typography variant="h5" component="div">
+        <Grid container item xs={12} md={4} direction="column" justifyContent="center" alignItems="center">      
+          <Typography sx={{'fontHeight': 100}} variant="h5" component="div">
             {resultPercent.toFixed(0)}%
           </Typography>
           <Typography variant="h5" component="div">
@@ -52,16 +58,17 @@ const AppointmentsPage = ({clear}) => {
                     <KeyboardDoubleArrowUpIcon />
                     +{percentDiff.toFixed(2)}%
                   </Box>
-                : <Box sx={{color: "red"}}>
-                    <KeyboardDoubleArrowDownIcon />
-                    {percentDiff.toFixed(2)}%
-                  </Box>
+                : percentDiff < 0
+                  ? <Box sx={{color: "red"}}>
+                      <KeyboardDoubleArrowDownIcon />
+                      {percentDiff.toFixed(2)}%
+                    </Box>
+                  : <Box sx={{color: "orange"}}>
+                      {percentDiff.toFixed(2)}%
+                    </Box>
             }
-            
           </Typography>
         </Grid>
-
-
       </Grid>
     </>
   )

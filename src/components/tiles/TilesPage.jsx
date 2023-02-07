@@ -21,6 +21,7 @@ import AppointmentsPage from "../indicator_pages/AppointmentsPage";
 import DoctorsSemdPage from "../indicator_pages/DoctorsSemdPage";
 import SemdsMSPage from "../indicator_pages/SemdsMSPage";
 import { diagram1SetDate, diagram2SetDate, diagram3SetDate } from "../../store/slices/diagramDatesSlice";
+import dateConverter from '../../utils/dateConverter';
 
 
 export const TilesPage = () => {
@@ -67,15 +68,15 @@ export const TilesPage = () => {
   }
 
   useEffect(() => {
-    dispatch(diagram1SetDate(Number(new Date())));
-    dispatch(diagram2SetDate(Number(new Date())));
-    dispatch(diagram3SetDate(Number(new Date())));
     dispatch(fetchMoList());
-    dispatch(fetchAppointments({
-      date: diagram1,
-    }));
     dispatch(setCurrentMo({id: 417, name: 'Архангельская область'}));
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchAppointments({
+      date: dateConverter.dateToStrForRequest(diagram1),
+    }));
+  }, [diagram1]);
 
   const grid = (
     <>
@@ -117,7 +118,9 @@ export const TilesPage = () => {
         </Grid>
         <Grid container spacing={2} item xs={12} md={6}>
           <Grid item xs={12}>
-            <Tile handleOpen={handleOpen} tileType="appointments" children={<AppointmentsPage clear={clearHighchartsCredentials}/>} curDate={diagram1} setDate={diagram1SetDate}/>
+            <Tile curDate={diagram1} setDate={diagram1SetDate}>
+              <AppointmentsPage clear={clearHighchartsCredentials} handleOpen={handleOpen} tileType="appointments"/>
+            </Tile>
           </Grid>
           <Grid item xs={12}>
             <Tile handleOpen={handleOpen} tileType="doctorssemd" children={<DoctorsSemdPage clear={clearHighchartsCredentials}/>} curDate={diagram2} setDate={diagram2SetDate}/>

@@ -7,13 +7,11 @@ import { useDispatch } from 'react-redux';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useEffect } from 'react';
+import dateConverter from '../../utils/dateConverter';
+import { Typography } from '@mui/material';
 
-export default function Tile({handleOpen, tileType, children, curDate, setDate}) {
+export default function Tile({curDate, setDate, children}) {
   const dispatch = useDispatch();
-
-  const changeDateHandler = (event) => {
-    dispatch(setDate('GRAPHIC date CHANGED'));
-  }
 
   const changeDateHandlerDecrease = (event) => {
     dispatch(setDate(curDate - 604800000));
@@ -28,22 +26,20 @@ export default function Tile({handleOpen, tileType, children, curDate, setDate})
       <CardContent>
         {children}
       </CardContent>
-      <CardActions>
-        <Button id={tileType} size="small" onClick={handleOpen}>Подробно</Button>
+      <CardActions sx={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
         <ChevronLeftIcon onClick={changeDateHandlerDecrease} sx={{
           cursor: "pointer", 
           '&:hover': {
             backgroundColor: 'grey',
           }
         }}/>
-        <div>{new Date(curDate).toDateString()}</div>
+        <Typography variant="button">{dateConverter.dateToStr(curDate)}</Typography>
         <ChevronRightIcon onClick={changeDateHandlerInrease} sx={{
           cursor: "pointer", 
           '&:hover': {
             backgroundColor: 'grey',
           }
         }}/>
-        <Button onClick={changeDateHandler}>change date</Button>
       </CardActions>
     </Card>
   );

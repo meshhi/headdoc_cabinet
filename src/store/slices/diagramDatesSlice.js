@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import dateConverter from "../../utils/dateConverter";
 
 const initialState = {
-  diagram1: null,
-  diagram2: null,
-  diagram3: null,
+  diagram1: dateConverter.dateStampToNearestMonday(),
+  diagram2: dateConverter.dateStampToNearestMonday(),
+  diagram3: dateConverter.dateStampToNearestMonday(),
 };
 
 const diagramDatesSlice = createSlice({

@@ -30,7 +30,6 @@ export const fetchMoList = createAsyncThunk(
 export const fetchAppointments = createAsyncThunk(
   "appointments/fetch",
   async (reqData, thunkApi) => {
-    const date = dateToNearestMonday(reqData.date);
     try {
       const config = {
         method: 'get',
@@ -38,9 +37,9 @@ export const fetchAppointments = createAsyncThunk(
         // headers: {
         //   'Content-Disposition': `attachment; filename=${file.name}`
         // },
-        // params: { 
-        //   date: '2023-01-23',
-        // },
+        params: { 
+          date: reqData.date,
+        },
         // data: data,
       };
       
@@ -52,8 +51,3 @@ export const fetchAppointments = createAsyncThunk(
     }
   }
 )
-
-const dateToNearestMonday = (timestamp) => {
-  const currentDate = new Date(timestamp);
-  console.log(currentDate)
-}

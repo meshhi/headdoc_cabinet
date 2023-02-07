@@ -67,12 +67,14 @@ export const TilesPage = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchMoList());
-    dispatch(fetchAppointments());
-    dispatch(setCurrentMo({id: 417, name: 'Архангельская область'}));
     dispatch(diagram1SetDate(Number(new Date())));
     dispatch(diagram2SetDate(Number(new Date())));
     dispatch(diagram3SetDate(Number(new Date())));
+    dispatch(fetchMoList());
+    dispatch(fetchAppointments({
+      date: diagram1,
+    }));
+    dispatch(setCurrentMo({id: 417, name: 'Архангельская область'}));
   }, []);
 
   const grid = (

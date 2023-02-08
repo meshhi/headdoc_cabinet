@@ -128,12 +128,26 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+        {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
             <MailIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+        <p>Messages</p> */}
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+          // sx={{ mr: 2, ml: 2 }}
+          onClick={() => {
+            adminRef.current.click();
+          }}
+        >
+          <AdminPanelSettingsIcon />
+          <Link to="/admin" ref={adminRef}></Link>
+        </IconButton>
+        <p>Администратор</p>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -191,23 +205,22 @@ export default function PrimarySearchAppBar() {
             Кабинет личной эффективности
             <Link to="/" ref={mainRef}></Link>
           </Typography>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2, ml: 2 }}
-            onClick={() => {
-              adminRef.current.click();
-            }}
-          >
-            <AdminPanelSettingsIcon />
-            <Link to="/admin" ref={adminRef}></Link>
-          </IconButton>
-
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              // sx={{ mr: 2, ml: 2 }}
+              onClick={() => {
+                adminRef.current.click();
+              }}
+            >
+              <AdminPanelSettingsIcon />
+              <Link to="/admin" ref={adminRef}></Link>
+            </IconButton>
+            {/* <IconButton
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
@@ -215,7 +228,7 @@ export default function PrimarySearchAppBar() {
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
             <IconButton
               size="large"
               aria-label="show 17 new notifications"

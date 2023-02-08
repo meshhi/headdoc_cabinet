@@ -2,6 +2,7 @@ import fileUploader from "../../utils/fileUploader";
 import dateConverter from "../../utils/dateConverter";
 import { Button } from "@mui/material";
 import { useState } from "react";
+import { Card, CardActionArea, CardContent, Grid } from "@mui/material";
 
 
 const AdminPanel = () => {
@@ -26,16 +27,22 @@ const AdminPanel = () => {
   }
 
   return(
-    <form className="upload-form" onSubmit={event => event.preventDefault()}>
-      <div className="upload__input_block">
-        <label htmlFor="ind-first-input">Выберите файл</label>
-        <input type="file" id="ind-first-input" onChange={fileChangeHandler}/>
-      </div>
-      <div className="upload__actions_block">
-        <Button onClick={uploadFile}>Отправить файл</Button>
-      </div>
-      <input type="date" name="" id="" onChange={changeDateHandler}/>
-    </form>
+    <Grid container>
+      <Grid item>
+        <Card>
+          <CardActionArea>
+            <CardContent>
+              <div className="upload__input_block">
+                <label htmlFor="ind-first-input">Выберите файл</label>
+                <input type="file" id="ind-first-input" onChange={fileChangeHandler}/>
+              </div>
+              <Button onClick={uploadFile}>Отправить файл</Button>
+              <input type="date" name="" id="" onChange={changeDateHandler}/>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Grid>
+    </Grid>
   )
 }
 

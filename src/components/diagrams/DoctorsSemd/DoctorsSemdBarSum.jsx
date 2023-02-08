@@ -22,8 +22,6 @@ const DoctorsSemdBarSum = ({clear, resultPercent}) => {
       enabled: true,
       useHTML: true,
     },
-
-
     xAxis: [{
       categories: ['Врач'],
       title: {
@@ -48,17 +46,30 @@ const DoctorsSemdBarSum = ({clear, resultPercent}) => {
     },
   ],
 
-
-    credits: {
-      enabled: false,
+  credits: {
+    enabled: false,
+  },
+  // settings for current bar
+  series: [{
+    type: "bar",
+    name: null,
+    // color: "#009425",
+    colorByPoint: true,
+    borderRadius: 10,
+    dataLabels: {
+      enabled: true,
     },
-    series: [{
-      type: "bar",
-      name: null,
-      color: "#009425",
-      data: [90]
-      },
-    ]
+    data: [90],
+    events: {
+      click: () => {console.log('clicked')},
+    },
+    // shadow: {
+    //   color: "black",
+    //   offsetX: 2,
+    //   offsetY: 2,
+    // }
+  },
+  ]
 
   };
 

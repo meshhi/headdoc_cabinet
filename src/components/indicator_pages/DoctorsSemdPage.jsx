@@ -5,6 +5,9 @@ import InfoLine from "./indicator_helpers/InfoLine";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { TransitionGroup } from 'react-transition-group';
+import Collapse from '@mui/material/Collapse';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 const DoctorsSemdPage = ({clear, handleOpen}) => {
   const [isReveal, setReveal] = useState(false);
@@ -21,14 +24,20 @@ const DoctorsSemdPage = ({clear, handleOpen}) => {
         <Button id="2" size="small" onClick={handleOpen}>Подробно</Button>
       </Typography>
       <DoctorsSemdBarSum clear={clear}/>
-      <Button onClick={handleRevealClick}>Reveal details</Button>
-      {/* <TransitionGroup> */}
-        {isReveal 
-          ? <DoctorsSemdBar clear={clear}/>
-          : false
+      <Grid container sx={{width: "100%"}} direction="column" justifyContent="center" alignItems="center">
+        {
+          isReveal
+            ? <ArrowDropUpIcon sx={{cursor: "pointer"}} onClick={handleRevealClick}/>
+            : <ArrowDropDownIcon sx={{cursor: "pointer"}} onClick={handleRevealClick}/>
         }
-      {/* </TransitionGroup> */}
-
+        <TransitionGroup>
+          {
+            isReveal 
+              ? <Collapse><DoctorsSemdBar clear={clear}/></Collapse>
+              : false
+          }
+        </TransitionGroup>
+      </Grid>
     </>
   )
 }

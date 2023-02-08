@@ -67,8 +67,15 @@ const DoctorsSemdBar = ({clear, resultPercent}) => {
     series: [{
       type: "bar",
       name: null,
-      color: "#009425",
-      data: [20, 60, 60, 70]
+      // color: "#009425",
+      borderRadius: 10,
+      data: [20, 60, 60, 70],
+      dataLabels: {
+        enabled: true,
+      }
+      // grouping: false,
+      // groupPadding: 0,
+      // height: 10,
       },
     ]
 

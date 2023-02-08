@@ -24,7 +24,7 @@ const AppointmentsDetails = ({clear, handleOpen, tileType}) => {
         setWatermarkFound(true);
         matchingElement.remove();
       } catch(e) {
-        console.log('clearMUIWatermark initiated!')
+        console.warn('clearMUIWatermark initiated!')
       }
     }
 

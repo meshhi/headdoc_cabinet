@@ -188,7 +188,7 @@ export default function PrimarySearchAppBar() {
               mainRef.current.click();
             }}
           >
-            Дневник успеваемости
+            Кабинет личной эффективности
             <Link to="/" ref={mainRef}></Link>
           </Typography>
           <IconButton

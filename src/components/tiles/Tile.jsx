@@ -9,6 +9,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useEffect } from 'react';
 import dateConverter from '../../utils/dateConverter';
 import { Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 
 export default function Tile({curDate, setDate, children}) {
   const dispatch = useDispatch();
@@ -27,19 +28,29 @@ export default function Tile({curDate, setDate, children}) {
         {children}
       </CardContent>
       <CardActions sx={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
-        <ChevronLeftIcon onClick={changeDateHandlerDecrease} sx={{
-          cursor: "pointer", 
-          '&:hover': {
-            backgroundColor: 'grey',
-          }
-        }}/>
-        <Typography variant="button">{dateConverter.dateToStr(curDate)}</Typography>
-        <ChevronRightIcon onClick={changeDateHandlerInrease} sx={{
-          cursor: "pointer", 
-          '&:hover': {
-            backgroundColor: 'grey',
-          }
-        }}/>
+        <Grid container justifyContent="center" alignItems="center">
+          <Grid container item xs={12} md={8} justifyContent="center" alignItems="center">
+            <ChevronLeftIcon onClick={changeDateHandlerDecrease} sx={{
+              cursor: "pointer", 
+              '&:hover': {
+                backgroundColor: 'grey',
+              }
+            }}/>
+            <Typography variant="button">{dateConverter.dateToStr(curDate)}</Typography>
+            <ChevronRightIcon onClick={changeDateHandlerInrease} sx={{
+              cursor: "pointer", 
+              '&:hover': {
+                backgroundColor: 'grey',
+              }
+            }}/>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Typography variant="caption">
+              Обновление: еженедельно
+            </Typography>
+          </Grid>
+          
+        </Grid>
       </CardActions>
     </Card>
   );

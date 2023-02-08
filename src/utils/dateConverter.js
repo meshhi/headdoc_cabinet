@@ -24,7 +24,8 @@ class DateConverter{
       let nearestMonday = currentDate;
       for (let i = 0; i < 7; i++) {
         if (nearestMonday.getDay() !== 1) {
-          nearestMonday = new Date(timestamp - 86400000);
+          timestamp -= 86400000;
+          nearestMonday = new Date(timestamp);
         } else {
           break;
         }

@@ -10,6 +10,7 @@ class FileUploader {
     try {
       const data = new FormData();
       data.append('file', file);
+      data.append('test', 'testValue');
 
       const config = {
         method: 'put',

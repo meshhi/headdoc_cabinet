@@ -15,7 +15,7 @@ const AdminPanel = () => {
 
   const uploadFile = async (event) => {
     if (file) {
-      let reqResult = await fileUploader.uploadAppointmentFile(file);
+      let reqResult = await fileUploader.uploadAppointmentFile(file, date);
       console.log(reqResult);
     }
   }

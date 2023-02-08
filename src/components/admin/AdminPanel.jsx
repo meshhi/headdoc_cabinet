@@ -32,7 +32,7 @@ const AdminPanel = () => {
         <input type="file" id="ind-first-input" onChange={fileChangeHandler}/>
       </div>
       <div className="upload__actions_block">
-        <Button onClick={uploadFile}/>
+        <Button onClick={uploadFile}>Отправить файл</Button>
       </div>
       <input type="date" name="" id="" onChange={changeDateHandler}/>
     </form>

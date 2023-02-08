@@ -3,8 +3,14 @@ import DoctorsSemdBar from "../diagrams/DoctorsSemd/DoctorsSemdBar";
 import DoctorsSemdBarSum from "../diagrams/DoctorsSemd/DoctorsSemdBarSum";
 import InfoLine from "./indicator_helpers/InfoLine";
 import { Button } from "@mui/material";
+import { useState } from "react";
 
 const DoctorsSemdPage = ({clear, handleOpen}) => {
+  const [isReveal, setReveal] = useState(false);
+
+  const handleRevealClick = () => {
+    setReveal((prev) => !prev);
+  }
 
   return(
     <>
@@ -14,7 +20,11 @@ const DoctorsSemdPage = ({clear, handleOpen}) => {
         <Button id="2" size="small" onClick={handleOpen}>Подробно</Button>
       </Typography>
       <DoctorsSemdBarSum clear={clear}/>
-      <DoctorsSemdBar clear={clear}/>
+      <Button onClick={handleRevealClick}></Button>
+      {isReveal 
+        ? <DoctorsSemdBar clear={clear}/>
+        : false
+      }
     </>
   )
 }

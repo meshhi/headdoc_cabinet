@@ -27,17 +27,23 @@ const AdminPanel = () => {
   }
 
   return(
-    <Grid container>
-      <Grid item>
+    <Grid container justifyContent="center" alignItems="center">
+      <Grid item xs={12} md={6}>
         <Card>
           <CardActionArea>
             <CardContent>
-              <div className="upload__input_block">
-                <label htmlFor="ind-first-input">Выберите файл</label>
-                <input type="file" id="ind-first-input" onChange={fileChangeHandler}/>
-              </div>
-              <Button onClick={uploadFile}>Отправить файл</Button>
-              <input type="date" name="" id="" onChange={changeDateHandler}/>
+              <Grid container>
+                <Grid container item xs={6} justifyContent="center" alignItems="center">
+                  <label htmlFor="ind-first-input">Выберите файл</label>
+                  <input type="file" id="ind-first-input" onChange={fileChangeHandler}/>
+                </Grid>
+                <Grid container item xs={6} justifyContent="center" alignItems="center">
+                  <input type="date" name="" id="" onChange={changeDateHandler}/>
+                </Grid>
+                <Grid container item xs={12} justifyContent="center" alignItems="center">
+                  <Button onClick={uploadFile}>Отправить файл</Button>
+                </Grid>
+              </Grid>     
             </CardContent>
           </CardActionArea>
         </Card>

@@ -2,7 +2,7 @@ import React from 'react';
 
 // hooks
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 // redux
 import { fetchMoList, fetchAppointments } from '../../store/slices/ActionCreators';
@@ -28,12 +28,7 @@ import SemdsMSDetails from '../indicator_details/SemdsMSDetails';
 import ErrorMsg from '../indicator_pages/indicator_helpers/ErrorMsg';
 
 
-export const TilesPage = ({modalPortal}) => {
-  // clear credentials watermark on all highcharts diagrams
-  const clearHighchartsCredentials = useCallback(() => {
-    document.querySelectorAll('.highcharts-credits').forEach((chartCredentials) => chartCredentials.style.display = 'none');
-  });
-
+export const TilesPage = ({modalPortal, clearHighchartsCredentials}) => {
   //initiate data settings got from redux
   const dispatch = useDispatch();
   const {moList, isLoading, error} = useSelector(state => state.moList);
@@ -69,12 +64,12 @@ export const TilesPage = ({modalPortal}) => {
   }
 
   // effects
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch(fetchMoList());
-    dispatch(setCurrentMo({id: 417, name: 'Архангельская область'}));
+    // dispatch(setCurrentMo({id: 417, name: 'Архангельская область'}));
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch(fetchAppointments({
       date: dateConverter.dateToStrForRequest(diagram1),
     }));

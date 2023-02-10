@@ -11,6 +11,7 @@ const AppointmentsGauge = ({clear, resultPercent}) => {
 
   useEffect(() => {
     clear();
+    console.log('graphic rendered!')
   }, [])
 
   const options = {

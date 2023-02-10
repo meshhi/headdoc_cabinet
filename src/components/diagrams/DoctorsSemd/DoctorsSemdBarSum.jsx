@@ -17,7 +17,7 @@ const DoctorsSemdBarSum = ({clear, resultPercent}) => {
       // borderWidth: 2,
       // borderColor: '#335cad',
       height: 100,
-      margin: [0, 0, 0, 0],
+      margin: [0, 50, 0, 50],
       spacing: [0, 0, 0, 0]
 
     },
@@ -57,6 +57,12 @@ const DoctorsSemdBarSum = ({clear, resultPercent}) => {
         },
         color: "#d6d6d6", //background color
       }],
+      label: {
+        enabled: true,
+        onArea: false,
+        useHTML: true,
+      },
+      name: 'test',
       partialFill: {
         fill: "#3f50b5" //graph color
       }

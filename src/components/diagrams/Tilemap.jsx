@@ -6,56 +6,86 @@ import highChartsHeatmap from 'highcharts/modules/heatmap'
 import highchartsMore from 'highcharts/highcharts-more';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMoList } from '../../store/slices/ActionCreators';
+import { fetchAppointments, fetchMoList } from '../../store/slices/ActionCreators';
+import dateConverter from '../../utils/dateConverter';
 
 highchartsMore(Highcharts);
 highChartsHeatmap(Highcharts);
 highChartsTilemap(Highcharts);
 
-const TileMap = ({clear, setCurrentMo}) => {
+const TileMap = ({clear, setCurrentMo, indicator}) => {
   const dispatch = useDispatch();
+  const {mapDate} = useSelector(state => state.diagramDates)
 
-  let coordController = {
-    x: -1,
-    y: -1,
-  }
-
+  // basis state to render map detalization
   const {moList, isLoading, error} = useSelector(state => state.moList);
+  const {appointments, isLoading: isLoadingAppointments, error: errorAppointments} = useSelector(state => state.appointments)
   const currentMo = useSelector(state => {
     const currentMoId = state.moList.currentMoId;
     const currentMoName = state.moList.currentMoName;
     return {label: currentMoName, id: currentMoId };
   });
 
+  const coordController = {
+    x: -1,
+    y: -1,
+  }
   const regex = new RegExp('".*"');
   const moListChoose = useSelector(state => {
-    return state.moList.moList
+
+    const moList = state.moList.moList
       .filter(mo => mo.id === 417 || mo.parent === 417)
       .map(mo => {
-        coordController.x++;
+          coordController.x++;
 
-        if (coordController.x + 1 === 11) {
-          coordController.x = -1;
-          coordController.y++;
-        }
+          if (coordController.x + 1 === 11) {
+            coordController.x = -1;
+            coordController.y++;
+          }
 
-        return {
-          'hc-a2': mo.name.match(regex),
-          // 'hc-a2': mo.name.slice(-10),
-          name: mo.name,
-          // region: 'West',
-          id: mo.id,
-          x: coordController.x,
-          y: coordController.y,
-          value: 202,
+          return {
+            'hc-a2': mo.name.match(regex),
+            // 'hc-a2': mo.name.slice(-10),
+            name: mo.name,
+            // region: 'West',
+            id: mo.id,
+            x: coordController.x,
+            y: coordController.y,
+            // value: 202,
+          }
         }
+      )
+
+      debugger
+      switch(indicator) {
+        case(1):
+          const appointmentsMo = moList.map(mo => {
+            for (let appointmentRecord of state.appointments.appointments) {
+              if (mo.id === appointmentRecord.mo.id) {
+                mo.value = appointmentRecord.percent;
+              }
+              return mo;
+            }
+          })
+          console.log(appointmentsMo)
+          return appointmentsMo;
+        case(2):
+          return
+        case(3):
+          return
+        default:
+          return
       }
-    )
+
+    
   });
 
   useEffect(() => {
     clear();
     dispatch(fetchMoList());
+    dispatch(fetchAppointments({
+      date: dateConverter.dateToStrForRequest(mapDate),
+    }));
   }, []);
 
   const linkRef = useRef(null);
@@ -76,7 +106,8 @@ const TileMap = ({clear, setCurrentMo}) => {
     },
 
     title: {
-        text: 'МО карта'
+      enabled: false,
+      text: 'МО карта'
     },
     legend: false,
     // subtitle: {
@@ -94,21 +125,21 @@ const TileMap = ({clear, setCurrentMo}) => {
     colorAxis: {
         dataClasses: [{
             from: 0,
-            to: 100,
+            to: 50,
             color: '#3f50b5',
             name: ''
         }, {
-            from: 101,
-            to: 200,
+            from: 51,
+            to: 80,
             color: '#FFC428',
             name: '1M - 5M'
         }, {
-            from: 201,
+            from: 81,
             to: 300,
             color: '#FF7987',
             name: '5M - 20M'
         }, {
-            from: 301,
+            from: 100,
             color: '#FF2371',
             name: '> 20M'
         }]

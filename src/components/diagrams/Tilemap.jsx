@@ -32,7 +32,6 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
   }
   const regex = new RegExp('".*"');
   const moListChoose = useSelector(state => {
-
     const moList = state.moList.moList
       .filter(mo => mo.id === 417 || mo.parent === 417)
       .map(mo => {
@@ -51,33 +50,63 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
             id: mo.id,
             x: coordController.x,
             y: coordController.y,
-            // value: 202,
+            value: -1,
           }
         }
       )
 
-      debugger
-      switch(indicator) {
-        case(1):
-          const appointmentsMo = moList.map(mo => {
-            for (let appointmentRecord of state.appointments.appointments) {
-              if (mo.id === appointmentRecord.mo.id) {
-                mo.value = appointmentRecord.percent;
-              }
-              return mo;
-            }
-          })
-          console.log(appointmentsMo)
-          return appointmentsMo;
-        case(2):
-          return
-        case(3):
-          return
-        default:
-          return
-      }
+    const returnAppointmentsMo = () => {
+      const appointmentsMo = moList.map(mo => {
+        for (let appointmentRecord of state.appointments.appointments) {
+          if (mo.id === appointmentRecord.mo.id) {
+            mo.value = Number(appointmentRecord.percent.toFixed(2));
+            break;
+          }
+        }
+        return mo;
+      })
 
-    
+      return appointmentsMo;
+    }
+
+    const returnDoctorsSemd = () => {
+      const appointmentsMo = moList.map(mo => {
+        for (let appointmentRecord of state.appointments.appointments) {
+          if (mo.id === appointmentRecord.mo.id) {
+            mo.value = appointmentRecord.percent - 100;
+            break;
+          }
+        }
+        return mo;
+      })
+
+      return appointmentsMo;
+    }
+
+    const returnSemdsMS = () => {
+      const appointmentsMo = moList.map(mo => {
+        for (let appointmentRecord of state.appointments.appointments) {
+          if (mo.id === appointmentRecord.mo.id) {
+            mo.value = appointmentRecord.percent - 100;
+            break;
+          }
+        }
+        return mo;
+      })
+
+      return appointmentsMo;
+    }
+
+    switch(indicator) {
+      case(1):
+        return returnAppointmentsMo()
+      case(2):
+        return returnDoctorsSemd()
+      case(3):
+        return returnSemdsMS()
+      default:
+        return returnAppointmentsMo()
+    }
   });
 
   useEffect(() => {
@@ -88,6 +117,13 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
     }));
   }, []);
 
+  useEffect(() => {
+    clear();
+    dispatch(fetchAppointments({
+      date: dateConverter.dateToStrForRequest(mapDate),
+    }));
+  }, [mapDate]);
+
   const linkRef = useRef(null);
 
 
@@ -95,7 +131,7 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
     chart: {
         type: 'tilemap',
         inverted: true,
-        height: '100%'
+        height: '150%'
     },
 
     accessibility: {
@@ -124,30 +160,32 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
 
     colorAxis: {
         dataClasses: [{
+          from: -1,
+          to: -1,
+          color: '#c9c9c9',
+          name: 'Нет данных'
+        },
+        {
             from: 0,
             to: 50,
-            color: '#3f50b5',
-            name: ''
+            color: '#ff0000',
+            name: '0-50%'
         }, {
-            from: 51,
+            from: 50,
             to: 80,
-            color: '#FFC428',
-            name: '1M - 5M'
+            color: '#fff600',
+            name: '51-80%'
         }, {
-            from: 81,
-            to: 300,
-            color: '#FF7987',
-            name: '5M - 20M'
-        }, {
-            from: 100,
-            color: '#FF2371',
-            name: '> 20M'
-        }]
+            from: 80,
+            to: 100,
+            color: '#19ff00',
+            name: '81-100%'
+        },]
     },
 
     tooltip: {
         headerFormat: '',
-        pointFormat: '<b> {point.name}</b> is <b>{point.value}</b>'
+        pointFormat: '<b> {point.name} {point.value}%</b>'
     },
 
     plotOptions: {

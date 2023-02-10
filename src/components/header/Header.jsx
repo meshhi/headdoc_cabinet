@@ -20,6 +20,7 @@ import { Autocomplete, TextField, CircularProgress } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
+import { Navigate } from "react-router";
 
 import { setAuthFlag } from "../../store/slices/userSlice";
 
@@ -65,6 +66,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 export default function PrimarySearchAppBar() {
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -139,7 +141,7 @@ export default function PrimarySearchAppBar() {
       <MenuItem onClick={handleMenuClose}>Мой профиль</MenuItem>
       <MenuItem onClick={(event) => {
           handleMenuClose(event);
-          setAuthFlag(false);
+          dispatch(setAuthFlag(false));
         }
       }>Выйти</MenuItem>
     </Menu>

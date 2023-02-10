@@ -1,11 +1,16 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { Card, CardActionArea, CardContent, Grid } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { setAuthFlag } from "../../store/slices/userSlice";
 
 
 const AuthorizationPage = () => {
-  const handleEsiaAuth = async (event) => {
+  const dispatch = useDispatch();
+  const {isAuth} = useSelector(state => state.user);
 
+  const handleEsiaAuth = async (event) => {
+    dispatch(setAuthFlag(!isAuth))
   }
 
   return(

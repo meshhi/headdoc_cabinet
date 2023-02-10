@@ -17,9 +17,11 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Autocomplete, TextField, CircularProgress } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
+
+import { setAuthFlag } from "../../store/slices/userSlice";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -61,9 +63,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -88,6 +92,33 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+
+  const mobileMenuAdmin = (isAuth, isAdmin) => {
+    return(
+      isAuth && isAdmin
+      ?
+      <MenuItem>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+          // sx={{ mr: 2, ml: 2 }}
+          onClick={() => {
+            adminRef.current.click();
+          }}
+        >
+          <AdminPanelSettingsIcon />
+          <Link to="/admin" ref={adminRef}></Link>
+        </IconButton>
+        <p>Администратор</p>
+      </MenuItem>
+      : false
+    )
+  }
+
+
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -105,10 +136,16 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Мой профиль</MenuItem>
+      <MenuItem onClick={(event) => {
+          handleMenuClose(event);
+          setAuthFlag(false);
+        }
+      }>Выйти</MenuItem>
     </Menu>
   );
+
+
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -127,28 +164,7 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p> */}
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="open drawer"
-          // sx={{ mr: 2, ml: 2 }}
-          onClick={() => {
-            adminRef.current.click();
-          }}
-        >
-          <AdminPanelSettingsIcon />
-          <Link to="/admin" ref={adminRef}></Link>
-        </IconButton>
-        <p>Администратор</p>
-      </MenuItem>
+      {mobileMenuAdmin}
       <MenuItem>
         <IconButton
           size="large"

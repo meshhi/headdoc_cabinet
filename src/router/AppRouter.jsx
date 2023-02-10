@@ -22,6 +22,13 @@ const AppRouter = () => {
     return children;
   };
 
+  const AuthRedirectRoute = ({ user, redirectPath = '/', children }) => {
+    if (isAuth) {
+      return <Navigate to={redirectPath} replace />;
+    }
+    return children;
+  };
+
   return(
   <Routes>
     <Route path="/" element={
@@ -29,7 +36,12 @@ const AppRouter = () => {
         <TilemapPage clear={clearHighchartsCredentials}/>
       </ProtectedRoute>}>
     </Route>
-    <Route path="/auth" element={<AuthorizationPage />}></Route>
+    <Route path="/auth" element={
+      <AuthRedirectRoute>
+        <AuthorizationPage />
+      </AuthRedirectRoute>
+      }>
+    </Route>
     <Route path="/details" element={
       <ProtectedRoute>
         <TilesPage clearHighchartsCredentials={clearHighchartsCredentials}/>

@@ -65,7 +65,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-export default function PrimarySearchAppBar() {
+function PrimarySearchAppBar() {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -286,4 +286,44 @@ export default function PrimarySearchAppBar() {
       {renderMenu}
     </Box>
   );
+}
+
+const HeaderUnauthorized = () => {
+
+  return (
+    <Box sx={{ 
+      flexGrow: 1,
+      marginBottom: 2,
+      
+      }}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ display: { xs: "none", sm: "block" }, cursor: 'pointer' }}
+            onClick={() => {
+              // mainRef.current.click();
+            }}
+          >
+            Кабинет личной эффективности
+            {/* <Link to="/" ref={mainRef}></Link> */}
+          </Typography>
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
+  
+}
+
+
+export default function Header() {
+  const {isAuth} = useSelector(state => state.user);
+
+  if(isAuth){
+    return <PrimarySearchAppBar />
+  } else {
+    return <HeaderUnauthorized/>
+  }
 }

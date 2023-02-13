@@ -94,33 +94,6 @@ function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-
-  const mobileMenuAdmin = (isAuth, isAdmin) => {
-    return(
-      isAuth && isAdmin
-      ?
-      <MenuItem>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="open drawer"
-          // sx={{ mr: 2, ml: 2 }}
-          onClick={() => {
-            adminRef.current.click();
-          }}
-        >
-          <AdminPanelSettingsIcon />
-          <Link to="/admin" ref={adminRef}></Link>
-        </IconButton>
-        <p>Администратор</p>
-      </MenuItem>
-      : false
-    )
-  }
-
-
-
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -166,7 +139,22 @@ function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {mobileMenuAdmin}
+      <MenuItem>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+          // sx={{ mr: 2, ml: 2 }}
+          onClick={() => {
+            adminRef.current.click();
+          }}
+        >
+          <AdminPanelSettingsIcon />
+          <Link to="/admin" ref={adminRef}></Link>
+        </IconButton>
+        <p>Администратор</p>
+      </MenuItem>
       <MenuItem>
         <IconButton
           size="large"

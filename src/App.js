@@ -1,12 +1,12 @@
 import AppRouter from './router/AppRouter';
 import { BrowserRouter } from 'react-router-dom';
-import PrimarySearchAppBar from './components/header/Header';
+import Header from './components/header/Header';
 import { Grid } from '@mui/material';
 
 function App() {
   return (
     <BrowserRouter>
-      <PrimarySearchAppBar />
+      <Header />
       <Grid container spacing={2} sx={{
         width: '80%',
         margin: '0 auto',

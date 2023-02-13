@@ -6,15 +6,29 @@ import { useSelector, useDispatch } from "react-redux";
 import { setAuthFlag } from "../../store/slices/userSlice";
 import { Input } from '@mui/material';
 import PasswordIcon from '@mui/icons-material/Password';
-
+import { login } from '../../store/slices/ActionCreators'
 
 
 const AuthorizationPage = () => {
   const dispatch = useDispatch();
   const {isAuth} = useSelector(state => state.user);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleEsiaAuth = async (event) => {
+  const handleEsiaAuth = (event) => {
     dispatch(setAuthFlag(!isAuth))
+  }
+
+  const handleLogin = (event) => {
+    dispatch(login())
+  }
+
+  const handleLoginInputChange = (event) => {
+    console.log(event)
+  }
+
+  const handlePasswordInputChange = () => {
+
   }
 
   return(
@@ -36,18 +50,18 @@ const AuthorizationPage = () => {
               <Grid container xs={12} justifyContent="center" alignItems="center" >
                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                   <AccountCircleIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                  <TextField id="input-with-sx" label="Логин" variant="standard" />
+                  <TextField id="input-with-sx" label="Логин" variant="standard" onChange={handleLoginInputChange}/>
                 </Box>
               </Grid>
               <Grid container xs={12} justifyContent="center" alignItems="center" >
                 <Box sx={{ display: 'flex', alignItems: 'flex-end', my: 0.5 }}>
                   <PasswordIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                  <TextField id="input-with-sx" label="Пароль" variant="standard" type="password"/>
+                  <TextField id="input-with-sx" label="Пароль" variant="standard" type="password" onChange={handlePasswordInputChange}/>
                 </Box>
               </Grid>
               <Grid container xs={12} justifyContent="center" alignItems="center" >
                 <Box sx={{ display: 'flex', alignItems: 'flex-end', mt: 4 }}>
-                  <Button variant="contained">Войти</Button>
+                  <Button variant="contained" onClick={handleLogin}>Войти</Button>
                 </Box>
               </Grid>
               

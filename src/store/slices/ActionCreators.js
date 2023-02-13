@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { GET_MO_LIST_URL, GET_APPOINTMENTS_URL } from "../api_urls/apiUrls";
+import { GET_MO_LIST_URL, GET_APPOINTMENTS_URL, LOGIN } from "../api_urls/apiUrls";
 
 export const fetchMoList = createAsyncThunk(
   "moList/fetchAll",
@@ -47,6 +47,66 @@ export const fetchAppointments = createAsyncThunk(
   
       return response.data;
     } catch (error) {
+      return thunkApi.rejectWithValue(error.message)
+    }
+  }
+)
+
+export const login = createAsyncThunk(
+  "auth/login",
+  async (reqData, thunkApi) => {
+    console.log('LOGIN START')
+    try {
+      const config = {
+        method: 'post',
+        url: LOGIN,
+        // headers: {
+        //   'Content-Disposition': `attachment; filename=${file.name}`
+        // },
+        // params: { 
+        //   date: reqData.date,
+        // },
+        data: {
+          username: "misha",
+          password: "*Jfgj&&^jg&^&%$GH",
+        },
+      };
+      
+      const response = await axios(config);
+      console.log('LOGIN END')
+      return response.data;
+    } catch (error) {
+      console.log('LOGIN ERROR')
+      return thunkApi.rejectWithValue(error.message)
+    }
+  }
+)
+
+export const logout = createAsyncThunk(
+  "auth/login",
+  async (reqData, thunkApi) => {
+    console.log('LOGIN START')
+    try {
+      const config = {
+        method: 'post',
+        url: LOGIN,
+        // headers: {
+        //   'Content-Disposition': `attachment; filename=${file.name}`
+        // },
+        // params: { 
+        //   date: reqData.date,
+        // },
+        data: {
+          username: "misha",
+          password: "*Jfgj&&^jg&^&%$GH",
+        },
+      };
+      
+      const response = await axios(config);
+      console.log('LOGIN END')
+      return response.data;
+    } catch (error) {
+      console.log('LOGIN ERROR')
       return thunkApi.rejectWithValue(error.message)
     }
   }

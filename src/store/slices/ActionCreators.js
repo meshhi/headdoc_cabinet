@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { GET_MO_LIST_URL, GET_APPOINTMENTS_URL, LOGIN } from "../api_urls/apiUrls";
+import { GET_MO_LIST_URL, GET_APPOINTMENTS_URL, LOGIN, LOGOUT } from "../api_urls/apiUrls";
 
 export const fetchMoList = createAsyncThunk(
   "moList/fetchAll",
@@ -9,9 +9,10 @@ export const fetchMoList = createAsyncThunk(
       const config = {
         method: 'get',
         url: GET_MO_LIST_URL,
-        // headers: {
-        //   'Content-Disposition': `attachment; filename=${file.name}`
-        // },
+        headers: {
+          // 'Content-Disposition': `attachment; filename=${file.name}`,
+          'Authorization': `Token ${localStorage.getItem('authToken')}`
+        },
         // params: { 
         //   date: '2023-01-23',
         // },
@@ -34,9 +35,10 @@ export const fetchAppointments = createAsyncThunk(
       const config = {
         method: 'get',
         url: GET_APPOINTMENTS_URL,
-        // headers: {
-        //   'Content-Disposition': `attachment; filename=${file.name}`
-        // },
+        headers: {
+          // 'Content-Disposition': `attachment; filename=${file.name}`,
+          'Authorization': `Token ${localStorage.getItem('authToken')}`
+        },
         params: { 
           date: reqData.date,
         },
@@ -55,7 +57,6 @@ export const fetchAppointments = createAsyncThunk(
 export const login = createAsyncThunk(
   "auth/login",
   async (reqData, thunkApi) => {
-    console.log('LOGIN START')
     try {
       const config = {
         method: 'post',
@@ -67,46 +68,43 @@ export const login = createAsyncThunk(
         //   date: reqData.date,
         // },
         data: {
-          username: "misha",
-          password: "*Jfgj&&^jg&^&%$GH",
+          username: reqData.username,
+          password: reqData.password,
         },
       };
       
       const response = await axios(config);
-      console.log('LOGIN END')
+      localStorage.setItem('authToken', response.data.auth_token);
       return response.data;
     } catch (error) {
-      console.log('LOGIN ERROR')
       return thunkApi.rejectWithValue(error.message)
     }
   }
 )
 
 export const logout = createAsyncThunk(
-  "auth/login",
+  "auth/logout",
   async (reqData, thunkApi) => {
-    console.log('LOGIN START')
     try {
       const config = {
         method: 'post',
-        url: LOGIN,
-        // headers: {
-        //   'Content-Disposition': `attachment; filename=${file.name}`
-        // },
+        url: LOGOUT,
+        headers: {
+          'Authorization': reqData.token
+        },
         // params: { 
         //   date: reqData.date,
         // },
-        data: {
-          username: "misha",
-          password: "*Jfgj&&^jg&^&%$GH",
-        },
+
+        // data: {
+        //   username: reqData.username,
+        //   password: reqData.password,
+        // },
       };
-      
       const response = await axios(config);
-      console.log('LOGIN END')
+      localStorage.removeItem('authToken')
       return response.data;
     } catch (error) {
-      console.log('LOGIN ERROR')
       return thunkApi.rejectWithValue(error.message)
     }
   }

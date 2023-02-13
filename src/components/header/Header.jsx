@@ -23,6 +23,7 @@ import { Link } from "react-router-dom";
 import { Navigate } from "react-router";
 
 import { setAuthFlag } from "../../store/slices/userSlice";
+import { logout } from '../../store/slices/ActionCreators'
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -114,7 +115,11 @@ function PrimarySearchAppBar() {
       <MenuItem onClick={handleMenuClose}>Мой профиль</MenuItem>
       <MenuItem onClick={(event) => {
           handleMenuClose(event);
-          dispatch(setAuthFlag(false));
+
+          const reqData = {
+            token: `Token ${localStorage.getItem('authToken')}`,
+          }
+          dispatch(logout(reqData));
         }
       }>Выйти</MenuItem>
     </Menu>

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAppointments, fetchMoList } from '../../store/slices/ActionCreators';
 import dateConverter from '../../utils/dateConverter';
+import { moMap } from '../../utils/moMap'
 
 highchartsMore(Highcharts);
 highChartsHeatmap(Highcharts);
@@ -26,32 +27,28 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
     return {label: currentMoName, id: currentMoId };
   });
 
-  const coordController = {
-    x: -1,
-    y: -1,
-  }
   const regex = new RegExp('".*"');
   const moListChoose = useSelector(state => {
     const moList = state.moList.moList
       .filter(mo => mo.id === 417 || mo.parent === 417)
       .map(mo => {
-          coordController.x++;
-
-          if (coordController.x + 1 === 11) {
-            coordController.x = -1;
-            coordController.y++;
+          for (let item of moMap) {
+            if (item.id === mo.id) {
+              return item;
+            }
           }
 
-          return {
-            'hc-a2': mo.name.match(regex),
-            // 'hc-a2': mo.name.slice(-10),
-            name: mo.name,
-            // region: 'West',
-            id: mo.id,
-            x: coordController.x,
-            y: coordController.y,
-            value: -1,
-          }
+          // return {
+          //   'hc-a2': mo.name.match(regex),
+          //   // 'hc-a2': moNameReduced,
+          //   // 'hc-a2': mo.name.slice(-10),
+          //   name: mo.name,
+          //   // region: 'West',
+          //   id: mo.id,
+          //   // x: coordController.x,
+          //   // y: coordController.y,
+          //   value: -1,
+          // }
         }
       )
 
@@ -65,6 +62,8 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
         }
         return mo;
       })
+
+      console.log(appointmentsMo);
 
       return appointmentsMo;
     }
@@ -130,20 +129,21 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
   const options = {
     chart: {
         type: 'tilemap',
-        inverted: true,
-        height: '150%'
+        inverted: false,
+        height: '100%',
+        // width: '200%'
     },
 
     accessibility: {
-        description: 'A tile map represents the states of the USA by population in 2016. The hexagonal tiles are positioned to geographically echo the map of the USA. A color-coded legend states the population levels as below 1 million (beige), 1 to 5 million (orange), 5 to 20 million (pink) and above 20 million (hot pink). The chart is interactive, and the individual state data points are displayed upon hovering. Three states have a population of above 20 million: California (39.3 million), Texas (27.9 million) and Florida (20.6 million). The northern US region from Massachusetts in the Northwest to Illinois in the Midwest contains the highest concentration of states with a population of 5 to 20 million people. The southern US region from South Carolina in the Southeast to New Mexico in the Southwest contains the highest concentration of states with a population of 1 to 5 million people. 6 states have a population of less than 1 million people; these include Alaska, Delaware, Wyoming, North Dakota, South Dakota and Vermont. The state with the lowest population is Wyoming in the Northwest with 584,153 people.',
+        description: 'Map of Arkhangelsk region indicators',
         point: {
-            valueDescriptionFormat: '{xDescription}, population {point.value}.'
+            valueDescriptionFormat: '{xDescription}, indicator {point.value}.'
         }
     },
 
     title: {
       enabled: false,
-      text: 'МО карта'
+      text: null
     },
     legend: false,
     // subtitle: {
@@ -200,7 +200,6 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
             },
             events: {
               click: (event) => {
-                console.log(event.point)
                 dispatch(setCurrentMo({id: event.point.options.id, name: event.point.options.name}))
                 linkRef.current.click()
               }
@@ -211,6 +210,7 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
     series: [{
         name: '',
         data: moListChoose,
+        // data: moMap,
         cursor: 'pointer',
     }]
 }

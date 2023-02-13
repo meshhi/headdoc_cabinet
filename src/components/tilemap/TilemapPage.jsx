@@ -15,7 +15,7 @@ const TilemapPage = ({clear}) => {
       <Grid item xs={12}>
         <TilemapFilter currentIndicator={currentIndicator} setCurrentIndicator={setCurrentIndicator}/>
       </Grid>
-      <Grid container item xs={12} direction="column" justifyContent="center" alignItems="center">
+      <Grid item xs={12}>
         <TileMap clear={clear} setCurrentMo={setCurrentMo} indicator={currentIndicator.id}/>
       </Grid>
     </Grid>

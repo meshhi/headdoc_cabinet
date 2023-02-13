@@ -2,8 +2,18 @@ import AppRouter from './router/AppRouter';
 import { BrowserRouter } from 'react-router-dom';
 import Header from './components/header/Header';
 import { Grid } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { setAuthFlag } from './store/slices/userSlice';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localStorage.getItem('authToken')) {
+      dispatch(setAuthFlag(true));
+    }
+  }, [])
   return (
     <BrowserRouter>
       <Header />

@@ -10,13 +10,13 @@ class FileUploader {
     try {
       const data = new FormData();
       data.append('file', file);
-      data.append('test', 'testValue');
 
       const config = {
         method: 'put',
         url: this.appointmentFileUpURL,
         headers: {
           'Content-Disposition': `attachment; filename=${file.name}`,
+          'Authorization': `Token ${localStorage.getItem('authToken')}`,
         },
         params: { 
           date: date,

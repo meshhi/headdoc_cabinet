@@ -21,7 +21,7 @@ const TilemapFilter = ({currentIndicator, setCurrentIndicator}) => {
 
   return(
     <Grid container spacing={2} justifyContent="center" alignItems="center">
-      <Grid item xs={4}>
+      <Grid item xs={6}>
         <Autocomplete
           disablePortal
           id="combo-box-current-indicator"
@@ -46,7 +46,7 @@ const TilemapFilter = ({currentIndicator, setCurrentIndicator}) => {
             />}
         />
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={6}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="Выберите дату"
@@ -60,13 +60,6 @@ const TilemapFilter = ({currentIndicator, setCurrentIndicator}) => {
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
-      </Grid>
-      <Grid item xs={4}>
-        {
-          appointments.length === 0 
-            ? <NoDataMsg errorTitle="Нет данных" errorContent="На выбранную дату в БД нет данных"></NoDataMsg>
-            : false
-        }
       </Grid>
     </Grid>
   )

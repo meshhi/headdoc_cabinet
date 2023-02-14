@@ -1,6 +1,6 @@
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import highChartsTilemap from 'highcharts/modules/tilemap';
 import highChartsHeatmap from 'highcharts/modules/heatmap'
 import highchartsMore from 'highcharts/highcharts-more';
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAppointments, fetchMoList } from '../../store/slices/ActionCreators';
 import dateConverter from '../../utils/dateConverter';
 import { moMap } from '../../utils/moMap'
+import Snackbar from '../indicator_pages/indicator_helpers/Snackbar'
 
 highchartsMore(Highcharts);
 highChartsHeatmap(Highcharts);
@@ -27,7 +28,7 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
     return {label: currentMoName, id: currentMoId };
   });
 
-  const regex = new RegExp('".*"');
+  // generate data for tilemap diagram
   const moListChoose = useSelector(state => {
     const moList = state.moList.moList
       .filter(mo => mo.id === 417 || mo.parent === 417)
@@ -37,22 +38,19 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
               return item;
             }
           }
-
-          // return {
-          //   'hc-a2': mo.name.match(regex),
-          //   // 'hc-a2': moNameReduced,
-          //   // 'hc-a2': mo.name.slice(-10),
-          //   name: mo.name,
-          //   // region: 'West',
-          //   id: mo.id,
-          //   // x: coordController.x,
-          //   // y: coordController.y,
-          //   value: -1,
-          // }
         }
       )
 
+    // count values for appointments
     const returnAppointmentsMo = () => {
+      if (state.appointments.appointments.length == 0) {
+        return moList.map(mo => {
+            mo.value = -1;
+            return mo
+          }
+        );
+      }
+
       const appointmentsMo = moList.map(mo => {
         for (let appointmentRecord of state.appointments.appointments) {
           if (mo.id === appointmentRecord.mo.id) {
@@ -63,12 +61,19 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
         return mo;
       })
 
-      console.log(appointmentsMo);
-
       return appointmentsMo;
     }
 
+    // count values for doctor semds
     const returnDoctorsSemd = () => {
+      if (state.appointments.appointments.length == 0) {
+        return moList.map(mo => {
+            mo.value = -1;
+            return mo
+          }
+        );
+      }
+      
       const appointmentsMo = moList.map(mo => {
         for (let appointmentRecord of state.appointments.appointments) {
           if (mo.id === appointmentRecord.mo.id) {
@@ -82,7 +87,16 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
       return appointmentsMo;
     }
 
+    // count values for ms stat
     const returnSemdsMS = () => {
+      if (state.appointments.appointments.length == 0) {
+        return moList.map(mo => {
+            mo.value = -1;
+            return mo
+          }
+        );
+      }
+
       const appointmentsMo = moList.map(mo => {
         for (let appointmentRecord of state.appointments.appointments) {
           if (mo.id === appointmentRecord.mo.id) {
@@ -108,6 +122,8 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
     }
   });
 
+  const [isSnack, setIsSnack] = useState(false)
+
   useEffect(() => {
     clear();
     dispatch(fetchMoList());
@@ -123,6 +139,14 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
     }));
   }, [mapDate]);
 
+  useLayoutEffect(() => {
+    if (appointments.length) {
+      setIsSnack(false);
+    } else {
+      setIsSnack(true);
+    }
+  }, [appointments])
+
   const linkRef = useRef(null);
 
 
@@ -130,7 +154,7 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
     chart: {
         type: 'tilemap',
         inverted: false,
-        height: '100%',
+        height: '70%',
         // width: '200%'
     },
 
@@ -213,7 +237,7 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
         // data: moMap,
         cursor: 'pointer',
     }]
-}
+  }
 
   return(
     <>
@@ -222,6 +246,7 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
         options={options}
       />  
       <Link to="/details" ref={linkRef}></Link>
+      <Snackbar mustBeOpen={isSnack}/>
     </>
   )
 };

@@ -1,13 +1,13 @@
-import { Typography, Grid } from "@mui/material"
+import { Typography, Grid, Container, Button, List, ListItem } from "@mui/material"
 import DoctorsSemdBar from "../diagrams/DoctorsSemd/DoctorsSemdBar";
 import DoctorsSemdBarSum from "../diagrams/DoctorsSemd/DoctorsSemdBarSum";
 import InfoLine from "./indicator_helpers/InfoLine";
-import { Button } from "@mui/material";
 import { useState } from "react";
 import { TransitionGroup } from 'react-transition-group';
 import Collapse from '@mui/material/Collapse';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import XrangeMock from "../diagrams/diagrams_mock/XrangeMock";
 
 
 const DoctorsSemdPage = ({clear, handleOpen}) => {
@@ -33,9 +33,18 @@ const DoctorsSemdPage = ({clear, handleOpen}) => {
         }
         <TransitionGroup>
           {
-            isReveal 
-              ? <Collapse><DoctorsSemdBar clear={clear}/></Collapse>
-              : false
+            
+                <Collapse>
+                  {/* <DoctorsSemdBar clear={clear}/> */}
+                  {isReveal 
+                    ? 
+                    <>
+                    <XrangeMock></XrangeMock>
+
+                    </>
+                    : false}
+                </Collapse>
+              
           }
         </TransitionGroup>
       </Grid>

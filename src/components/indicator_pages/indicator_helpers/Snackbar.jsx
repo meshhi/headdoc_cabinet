@@ -10,7 +10,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const CustomSnackbar = ({mustBeOpen}) => {
+const CustomSnackbar = ({mustBeOpen, snackText}) => {
   const [open, setOpen] = useState(false);
 
   const handleClose = (event, reason) => {
@@ -53,7 +53,7 @@ const CustomSnackbar = ({mustBeOpen}) => {
         action={action}
         anchorOrigin={{vertical: "bottom", horizontal: "left"}}
       >
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>В БД нет данных!</Alert>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%', backgroundColor: '#ff5b60' }}>{snackText}</Alert>
       </Snackbar>
   )
 }

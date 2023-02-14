@@ -31,16 +31,20 @@ export default function Tile({curDate, setDate, children}) {
         <Grid container justifyContent="center" alignItems="center">
           <Grid container item xs={12} md={8} justifyContent="center" alignItems="center">
             <ChevronLeftIcon onClick={changeDateHandlerDecrease} sx={{
+              borderRadius: "5px",
+              marginRight: "5px",
               cursor: "pointer", 
               '&:hover': {
-                backgroundColor: 'grey',
+                backgroundColor: '#d6d6d6',
               }
             }}/>
-            <Typography variant="button">{dateConverter.dateToStr(curDate)}</Typography>
+            <Typography variant="button" sx={{ width: "40%", textAlign: 'center'}}>{dateConverter.dateToStr(curDate)}</Typography>
             <ChevronRightIcon onClick={changeDateHandlerInrease} sx={{
+              borderRadius: "5px",
+              marginLeft: "5px",
               cursor: "pointer", 
               '&:hover': {
-                backgroundColor: 'grey',
+                backgroundColor: '#d6d6d6',
               }
             }}/>
           </Grid>

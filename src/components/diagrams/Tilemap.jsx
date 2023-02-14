@@ -192,17 +192,17 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
         {
             from: 0,
             to: 50,
-            color: '#ff0000',
+            color: '#ff5b60',
             name: '0-50%'
         }, {
             from: 50,
             to: 80,
-            color: '#fff600',
+            color: '#ffc372',
             name: '51-80%'
         }, {
             from: 80,
             to: 100,
-            color: '#19ff00',
+            color: '#00db9d',
             name: '81-100%'
         },]
     },
@@ -246,7 +246,7 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
         options={options}
       />  
       <Link to="/details" ref={linkRef}></Link>
-      <Snackbar mustBeOpen={isSnack}/>
+      <Snackbar mustBeOpen={isSnack} snackText={`Нет данных на ${dateConverter.dateToStrForRequest(mapDate)}`}/>
     </>
   )
 };

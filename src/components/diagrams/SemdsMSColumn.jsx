@@ -51,9 +51,10 @@ const SemdsMSColumn = ({clear}) => {
     credits: {
       enabled: false,
     },
+
     series: [
     {
-      color: 'rgba(158, 159, 163, 0.5)',
+      color: '#d6d6d6',
       pointPlacement: 0.2,
       linkedTo: 'main',
       data: [
@@ -65,7 +66,7 @@ const SemdsMSColumn = ({clear}) => {
     }, 
     
     {
-      color: '#009425',
+      color: '#00db9d',
       name: 'Текущая дата',
       id: 'main',
       dataSorting: {

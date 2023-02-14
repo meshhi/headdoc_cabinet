@@ -5,12 +5,8 @@ import xrange from 'highcharts/modules/xrange';
 
 xrange(Highcharts);
 
-const DoctorsSemdBarSum = ({clear, resultPercent}) => {
-  useEffect(() => {
-    clear();
-  }, [])
-  
-  const value = 0.8;
+const XrangeMock = ({clear, resultPercent}) => {
+  const value = 0.2;
 
   const options = {
     chart: {
@@ -74,6 +70,6 @@ const DoctorsSemdBarSum = ({clear, resultPercent}) => {
       options={options}
     />
   )
-};
+}
 
-export default DoctorsSemdBarSum;
+export default XrangeMock;

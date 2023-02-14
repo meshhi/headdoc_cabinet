@@ -138,6 +138,7 @@ export const fetchDoctors = createAsyncThunk(
         //   password: reqData.password,
         // },
       };
+
       const response = await axios(config);
       return response.data;
     } catch (error) {

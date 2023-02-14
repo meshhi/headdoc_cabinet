@@ -11,7 +11,6 @@ const AppointmentsGauge = ({clear, resultPercent}) => {
 
   useEffect(() => {
     clear();
-    console.log('graphic rendered!')
   }, [])
 
   const options = {
@@ -57,9 +56,11 @@ const AppointmentsGauge = ({clear, resultPercent}) => {
     // the value axis
     yAxis: {
       stops: [
-        [0.1, '#ff0015'], //
-        [0.5, '#ffe713'], //
-        [0.9, '#009425'] //
+        [0.1, '#ff5b60'], //
+        [0.5, '#ffc372'], //
+        [0.9, '#00db9d'] //
+
+        
       ],
       lineWidth: 0,
       tickWidth: 0,

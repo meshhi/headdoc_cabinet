@@ -1,24 +1,30 @@
-
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { useEffect } from 'react';
+import xrange from 'highcharts/modules/xrange';
+
+xrange(Highcharts);
 
 const DoctorsSemdBar = ({clear, resultPercent}) => {
   useEffect(() => {
     clear();
   }, [])
 
+  const value = 0.8;
+  
   const options = {
     chart: {
       type: 'bar',
       backgroundColor: '#fff',
       reflow: true,
+      margin: [0, 0, 0, 100],
+      spacing: [10, 10, 15, 10],
     },
     title: null,
     legend: {
       enabled: false,
     },
-    gridLineColor: "#fcfcfc",
+    gridLineColor: "#fff",
     tooltip: {
       enabled: true,
       useHTML: true,
@@ -68,7 +74,7 @@ const DoctorsSemdBar = ({clear, resultPercent}) => {
       type: "bar",
       name: null,
       // color: "#009425",
-      borderRadius: 10,
+      borderRadius: 15,
       data: [20, 60, 60, 70],
       dataLabels: {
         enabled: true,

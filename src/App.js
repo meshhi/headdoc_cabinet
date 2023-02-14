@@ -5,6 +5,7 @@ import { Grid } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setAuthFlag } from './store/slices/userSlice';
+import './App.css';
 
 function App() {
   const dispatch = useDispatch();

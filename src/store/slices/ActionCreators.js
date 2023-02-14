@@ -1,7 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { GET_MO_LIST_URL, GET_APPOINTMENTS_URL, LOGIN, LOGOUT } from "../api_urls/apiUrls";
+import { GET_MO_LIST_URL, GET_APPOINTMENTS_URL, LOGIN, LOGOUT, GET_DOCTOR_LIST } from "../api_urls/apiUrls";
 
+
+// moListSlice
 export const fetchMoList = createAsyncThunk(
   "moList/fetchAll",
   async (_, thunkApi) => {
@@ -28,6 +30,8 @@ export const fetchMoList = createAsyncThunk(
   }
 )
 
+
+// appointmentsSlice
 export const fetchAppointments = createAsyncThunk(
   "appointments/fetch",
   async (reqData, thunkApi) => {
@@ -54,6 +58,8 @@ export const fetchAppointments = createAsyncThunk(
   }
 )
 
+
+// userSlice
 export const login = createAsyncThunk(
   "auth/login",
   async (reqData, thunkApi) => {
@@ -90,7 +96,7 @@ export const logout = createAsyncThunk(
         method: 'post',
         url: LOGOUT,
         headers: {
-          'Authorization': reqData.token
+          'Authorization': `Token ${localStorage.getItem('authToken')}`
         },
         // params: { 
         //   date: reqData.date,
@@ -103,6 +109,36 @@ export const logout = createAsyncThunk(
       };
       const response = await axios(config);
       localStorage.removeItem('authToken')
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message)
+    }
+  }
+)
+
+
+// doctorsSemdSlice
+export const fetchDoctors = createAsyncThunk(
+  "doctors/fetch",
+  async (reqData, thunkApi) => {
+    try {
+      const config = {
+        method: 'get',
+        url: GET_DOCTOR_LIST,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('authToken')}`
+        },
+        params: { 
+          tvsp_id: reqData.tvspId,
+          mo_id: reqData.moId,
+        },
+
+        // data: {
+        //   username: reqData.username,
+        //   password: reqData.password,
+        // },
+      };
+      const response = await axios(config);
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message)

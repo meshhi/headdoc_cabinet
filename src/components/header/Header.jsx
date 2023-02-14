@@ -115,11 +115,7 @@ function PrimarySearchAppBar() {
       <MenuItem onClick={handleMenuClose}>Мой профиль</MenuItem>
       <MenuItem onClick={(event) => {
           handleMenuClose(event);
-
-          const reqData = {
-            token: `Token ${localStorage.getItem('authToken')}`,
-          }
-          dispatch(logout(reqData));
+          dispatch(logout());
         }
       }>Выйти</MenuItem>
     </Menu>

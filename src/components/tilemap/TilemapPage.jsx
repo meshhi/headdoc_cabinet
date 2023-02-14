@@ -15,8 +15,10 @@ const TilemapPage = ({clear}) => {
       <Grid item xs={12}>
         <TilemapFilter currentIndicator={currentIndicator} setCurrentIndicator={setCurrentIndicator}/>
       </Grid>
-      <Grid item xs={12}>
-        <TileMap clear={clear} setCurrentMo={setCurrentMo} indicator={currentIndicator.id}/>
+      <Grid item xs={12} container justifyContent="center" alignItems="center">
+        <div className="highcharts-tilemap">
+          <TileMap clear={clear} setCurrentMo={setCurrentMo} indicator={currentIndicator.id}/>
+        </div>
       </Grid>
     </Grid>
   )

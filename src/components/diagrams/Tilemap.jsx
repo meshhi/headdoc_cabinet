@@ -154,8 +154,8 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
     chart: {
         type: 'tilemap',
         inverted: false,
-        height: '70%',
-        // width: '200%'
+        height: (9 / 16 * 100) + '%',
+        // width: 1000,
     },
 
     accessibility: {

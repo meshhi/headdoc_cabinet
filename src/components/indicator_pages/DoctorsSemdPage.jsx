@@ -9,6 +9,7 @@ import Collapse from '@mui/material/Collapse';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
+
 const DoctorsSemdPage = ({clear, handleOpen}) => {
   const [isReveal, setReveal] = useState(false);
 

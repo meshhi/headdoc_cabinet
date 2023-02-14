@@ -37,7 +37,11 @@ const TilemapFilter = ({currentIndicator, setCurrentIndicator}) => {
             option => option.label
           }
           value={currentIndicator}
-          onChange={(event, newValue) => {setCurrentIndicator(newValue)}}
+          onChange={(event, newValue) => {
+            if(newValue !== null) {
+              setCurrentIndicator(newValue)
+            };
+          }}
             sx={{ width: '60%', marginRight: '1%' }}
             renderInput={(params) => <TextField
               {...params}

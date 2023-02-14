@@ -21,6 +21,7 @@ function App() {
       <Grid container spacing={2} sx={{
         width: '80%',
         margin: '0 auto',
+        minHeight: '50vh'
       }}>
         <AppRouter />
       </Grid>

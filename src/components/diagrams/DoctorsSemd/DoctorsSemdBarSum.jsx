@@ -5,12 +5,13 @@ import xrange from 'highcharts/modules/xrange';
 
 xrange(Highcharts);
 
-const DoctorsSemdBarSum = ({clear, resultPercent}) => {
+const DoctorsSemdBarSum = ({clear, percent}) => {
   useEffect(() => {
     clear();
   }, [])
-  
-  const value = 0.8;
+
+  const value = Number(percent.toFixed(0)) / 100;
+
 
   const options = {
     chart: {
@@ -50,7 +51,7 @@ const DoctorsSemdBarSum = ({clear, resultPercent}) => {
       data: [{
         x: 0,
         x2: 100,
-        partialFill: value, //
+        partialFill: value,
         dataLabels: {
           enabled: true,
         },

@@ -108,10 +108,11 @@ export const logout = createAsyncThunk(
         // },
       };
       const response = await axios(config);
-      localStorage.removeItem('authToken')
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(error.message)
+      return thunkApi.rejectWithValue(error.message);
+    } finally {
+      localStorage.removeItem('authToken');
     }
   }
 )

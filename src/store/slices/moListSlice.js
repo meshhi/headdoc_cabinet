@@ -3,10 +3,10 @@ import { fetchMoList } from "./ActionCreators";
 
 const initialState = {
   moList: [],
-  currentMoId: null,
-  currentMoName: '',
   isLoading: false,
   error: false,
+  currentMoId: null,
+  currentMoName: '',
 };
 
 export const moListSlice = createSlice({

@@ -9,6 +9,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import XrangeMock from "../diagrams/diagrams_mock/XrangeMock";
 import { Fade } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
 
 const XrangeList = () => {
   return(
@@ -25,17 +26,17 @@ const XrangeList = () => {
 
 const DoctorsSemdPage = ({clear, handleOpen}) => {
   const [isReveal, setReveal] = useState(false);
+  const {moList, currentMoId} = useSelector(state => state.moList);
+
+  const sumPercent = moList.find(({id}) => id === currentMoId).semd_percent
 
   const handleRevealClick = () => {
     setReveal((prev) => !prev);
   }
 
-
   const handleCollapseEnd = () => {
     console.log('collapsed end')
   };
-
-
 
   return(
     <>
@@ -44,7 +45,7 @@ const DoctorsSemdPage = ({clear, handleOpen}) => {
         Доля врачей, у которых не менее 2 СЭМД
         <Button id="2" size="small" onClick={handleOpen}>Подробно</Button>
       </Typography>
-      <DoctorsSemdBarSum clear={clear}/>
+      <DoctorsSemdBarSum clear={clear} percent={sumPercent}/>
       <Grid container sx={{width: "100%"}} direction="column" justifyContent="center" alignItems="center">
         {
           isReveal

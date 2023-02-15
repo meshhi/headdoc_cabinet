@@ -106,9 +106,6 @@ const DoctorsSemdDetails = ({clear, handleOpen, tileType}) => {
       tvspId: null,
     }
     dispatch(fetchDoctors(reqData));
-
-
-
   }, [currentMoId]);
 
   useEffect(() => {
@@ -120,7 +117,7 @@ const DoctorsSemdDetails = ({clear, handleOpen, tileType}) => {
   }, [doctors])
 
   useLayoutEffect(() => {
-    clearMUIWatermark();
+    // clearMUIWatermark();
   }, [])
 
   return(

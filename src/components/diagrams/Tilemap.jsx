@@ -243,24 +243,16 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
 
   return(
     <>
-      {
-        isLoading
-        ?     
-        <Box sx={{ width: '100%' }}>
-          Загрузка списка организаций
-          <LinearProgress />
-        </Box>
-        : false
-      }
-      {
-        isLoadingAppointments
-        ?    
-        <Box sx={{ width: '100%' }}>
-          Загрузка данных по записи ко врачу
-          <LinearProgress />
-        </Box>
-        : false
-      }
+      <Box sx={{ height: 10 }}>
+        {
+          isLoading || isLoadingAppointments
+          ?     
+          <Box sx={{ width: '100%' }}>
+            <LinearProgress />
+          </Box>
+          : false
+        }
+      </Box>
       <HighchartsReact
         highcharts={Highcharts}
         options={options}

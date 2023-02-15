@@ -28,7 +28,7 @@ const AppointmentsDetails = ({clear, handleOpen, tileType}) => {
       }
     }
 
-    const intervalId = setInterval(() => findWM(intervalId), 100);
+    const intervalId = setInterval(() => findWM(intervalId), 10);
   }
 
   useEffect(() => {

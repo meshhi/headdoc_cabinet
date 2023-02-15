@@ -1,14 +1,27 @@
-import { Typography, Grid, Container, Button, List, ListItem } from "@mui/material"
+import { Typography, Grid, Container, Button, List, ListItem, Box } from "@mui/material"
 import DoctorsSemdBar from "../diagrams/DoctorsSemd/DoctorsSemdBar";
 import DoctorsSemdBarSum from "../diagrams/DoctorsSemd/DoctorsSemdBarSum";
 import InfoLine from "./indicator_helpers/InfoLine";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TransitionGroup } from 'react-transition-group';
 import Collapse from '@mui/material/Collapse';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import XrangeMock from "../diagrams/diagrams_mock/XrangeMock";
+import { Fade } from '@mui/material';
 
+const XrangeList = () => {
+  return(
+  <>
+    <Box>
+      <XrangeMock></XrangeMock>
+    </Box>
+    <Box>
+      <XrangeMock></XrangeMock>
+    </Box>
+  </>
+  )
+}
 
 const DoctorsSemdPage = ({clear, handleOpen}) => {
   const [isReveal, setReveal] = useState(false);
@@ -16,6 +29,13 @@ const DoctorsSemdPage = ({clear, handleOpen}) => {
   const handleRevealClick = () => {
     setReveal((prev) => !prev);
   }
+
+
+  const handleCollapseEnd = () => {
+    console.log('collapsed end')
+  };
+
+
 
   return(
     <>
@@ -31,25 +51,28 @@ const DoctorsSemdPage = ({clear, handleOpen}) => {
             ? <ArrowDropUpIcon sx={{cursor: "pointer"}} onClick={handleRevealClick}/>
             : <ArrowDropDownIcon sx={{cursor: "pointer"}} onClick={handleRevealClick}/>
         }
-        <TransitionGroup>
-          {
-            
-                <Collapse>
-                  {/* <DoctorsSemdBar clear={clear}/> */}
-                  {isReveal 
-                    ? 
-                    <>
-                    <XrangeMock></XrangeMock>
+        <Box sx={{ 
+          height: isReveal ? 'auto' : 0,
+          transition: 'all 1s ease' 
+          }}>
+          <Fade in={isReveal}>
+            <Box>
+              <XrangeMock></XrangeMock>
+            </Box>
+          </Fade>
+          <Fade in={isReveal}>
+            <Box>
+              <XrangeMock></XrangeMock>
+            </Box>
+          </Fade>
 
-                    </>
-                    : false}
-                </Collapse>
-              
-          }
-        </TransitionGroup>
+
+        </Box>
       </Grid>
     </>
   )
 }
 
 export default DoctorsSemdPage;
+
+{/* <DoctorsSemdBar clear={clear}/> */}

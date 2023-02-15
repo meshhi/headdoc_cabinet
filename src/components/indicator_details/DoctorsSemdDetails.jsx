@@ -22,17 +22,21 @@ const DoctorsSemdDetails = ({clear, handleOpen, tileType}) => {
     let xpath = "//div[text()='MUI X: Missing license key']";
 
     const findWM = (intervalId) => {
+      clearInterval(intervalId);
+
       try {
         let matchingElement = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         setWatermarkFound(true);
         matchingElement.remove();
-        clearInterval(intervalId);
       } catch(e) {
         console.warn('clearMUIWatermark initiated!')
+        const repeatIntervalId = setInterval(() => {
+          findWM(repeatIntervalId)}, 1);
       }
     }
 
-    const intervalId = setInterval(() => findWM(intervalId), 100);
+    const intervalId = setInterval(() => {
+      findWM(intervalId)}, 1);
   }
   
   const currentMoDoctors = useSelector(state => {
@@ -117,8 +121,6 @@ const DoctorsSemdDetails = ({clear, handleOpen, tileType}) => {
 
   useLayoutEffect(() => {
     clearMUIWatermark();
-
-
   }, [])
 
   return(

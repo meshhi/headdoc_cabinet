@@ -14,9 +14,9 @@ import '@fontsource/roboto/700.css';
 const theme = createTheme({
   palette: {
     primary: {
-      light: '#7ddcfa',
-      main: '#55ccf2',
-      dark: '#3ac6f2',
+      light: process.env.REACT_APP_ENV === "DEVELOPMENT" ? "#fa3e42" : '#7ddcfa',
+      main: process.env.REACT_APP_ENV === "DEVELOPMENT" ? "#ff2121" : '#55ccf2',
+      dark: process.env.REACT_APP_ENV === "DEVELOPMENT" ? "#f00c23" : '#3ac6f2',
       contrastText: '#fff',
     },
     secondary: {

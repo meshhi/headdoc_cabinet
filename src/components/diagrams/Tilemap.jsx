@@ -10,6 +10,8 @@ import { fetchAppointments, fetchMoList } from '../../store/slices/ActionCreator
 import dateConverter from '../../utils/dateConverter';
 import { moMap } from '../../utils/moMap'
 import Snackbar from '../indicator_pages/indicator_helpers/Snackbar'
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
 
 highchartsMore(Highcharts);
 highChartsHeatmap(Highcharts);
@@ -241,6 +243,24 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
 
   return(
     <>
+      {
+        isLoading
+        ?     
+        <Box sx={{ width: '100%' }}>
+          Загрузка списка организаций
+          <LinearProgress />
+        </Box>
+        : false
+      }
+      {
+        isLoadingAppointments
+        ?    
+        <Box sx={{ width: '100%' }}>
+          Загрузка данных по записи ко врачу
+          <LinearProgress />
+        </Box>
+        : false
+      }
       <HighchartsReact
         highcharts={Highcharts}
         options={options}

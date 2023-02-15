@@ -1,4 +1,4 @@
-const baseUrl = "10.1.3.109:8000"
+const baseUrl = process.env.REACT_APP_BASE_URL
 
 export const UPLOAD_BI_FILE_URL = `http://${baseUrl}/adminka/bi_file/`
 export const GET_MO_LIST_URL = `http://${baseUrl}/api/bi/mo/`

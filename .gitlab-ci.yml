@@ -1,0 +1,6 @@
+build project:
+  image: node:current-alpine3.16
+  script:
+    - yarn install
+    - yarn test
+    - yarn build

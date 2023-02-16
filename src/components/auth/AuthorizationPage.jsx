@@ -1,21 +1,27 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardActionArea, CardContent, Grid, TextField, Box } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { setAuthFlag } from "../../store/slices/userSlice";
 import { Input } from '@mui/material';
 import PasswordIcon from '@mui/icons-material/Password';
 import { login } from '../../store/slices/ActionCreators';
-
+import EsiaButton from './EsiaButton';
+import axios from 'axios';
 
 const AuthorizationPage = () => {
+
   const dispatch = useDispatch();
   const {isAuth} = useSelector(state => state.user);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const [authUrl, setAuthUrl] = useState();
+  const [esiaUrlReady, setEsiaUrlReady] = useState(false);
+
   const handleEsiaAuth = (event) => {
+    // getAuth();
     // dispatch(setAuthFlag(!isAuth))
   }
 
@@ -36,6 +42,23 @@ const AuthorizationPage = () => {
     setPassword(event.target.value);
   }
 
+  useEffect(() => {
+    const getUrl = async() => {
+      try {
+        let response = await axios.get('http://10.1.3.109:8000/esia_login/login');
+        console.log(response);
+        const authorizeUrl = response.data;
+        console.log(authorizeUrl);
+        setAuthUrl(authorizeUrl);
+        setEsiaUrlReady(true);
+      } catch(e) {
+        setEsiaUrlReady(false);
+      }
+    };
+
+    getUrl();
+  }, [])
+
   return(
     <Grid container justifyContent="center" alignItems="center">
       <Grid item xs={12} md={6}>
@@ -44,8 +67,7 @@ const AuthorizationPage = () => {
             <CardContent>
               <Grid container>
                 <Grid container item xs={12} justifyContent="center" alignItems="center">
-                  <Button onClick={handleEsiaAuth}>Авторизоваться через ЕСИА</Button>
-                  {/* <a href="http://10.1.3.109:8000/esia_login/login" target="_blank">ESIA</a> */}
+                  <EsiaButton authUrl={authUrl} esiaUrlReady={esiaUrlReady}></EsiaButton>
                 </Grid>
               </Grid>     
             </CardContent>

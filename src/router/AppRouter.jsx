@@ -5,7 +5,7 @@ import AuthorizationPage from "../components/auth/AuthorizationPage";
 import TilemapPage from "../components/tilemap/TilemapPage";
 import { useCallback } from "react";
 import { useSelector } from "react-redux";
-
+import { OAuthPopup } from "@tasoskakour/react-use-oauth2";
 
 const AppRouter = () => {
   // clear credentials watermark on all highcharts diagrams
@@ -54,6 +54,7 @@ const AppRouter = () => {
       </ProtectedRoute>
     }>
     </Route>
+    <Route element={<OAuthPopup />} path="/callback" />
     <Route path="*" element={<p>There's nothing here: 404!</p>} />
   </Routes>)
 }

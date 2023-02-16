@@ -12,6 +12,7 @@ import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrow
 import { Box } from "@mui/material";
 import { Button } from "@mui/material";
 import { useLayoutEffect, useState } from "react";
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const AppointmentsPage = ({clear, handleOpen}) => {
   const {appointments, isLoading, error} = useSelector(state => state.appointments);
@@ -26,6 +27,7 @@ const AppointmentsPage = ({clear, handleOpen}) => {
   });
 
   const [noDataFlag, setNoDataFlag] = useState(false);
+  const max700 = useMediaQuery('(max-width: 700px)');
 
   useLayoutEffect(() => {
     if (!isLoading && !error && !appointments.length) {
@@ -65,7 +67,9 @@ const AppointmentsPage = ({clear, handleOpen}) => {
             : isLoading
               ? false
               : <>
-                  <Typography sx={{'fontSize': 100}} variant="h4" component="div">
+                  <Typography 
+                  sx={{fontSize: {xs: 60, md: 80, lg: 100}}} 
+                  variant="h4" component="div">
                     {resultPercent.toFixed(0)}%
                   </Typography>
                   <Typography sx={{textAlign: "center"}} variant="h5" component="div">

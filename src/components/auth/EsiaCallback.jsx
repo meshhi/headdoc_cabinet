@@ -9,18 +9,12 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import { Link, Navigate } from 'react-router-dom';
-
-const Div = styled('div')(({ theme }) => ({
-  ...theme.typography.button,
-  backgroundColor: theme.palette.background.paper,
-  padding: theme.spacing(1),
-  overflow: 'hidden',
-  overflowWrap: 'anywhere'
-}));
+import Container from '@mui/material/Container';
 
 const EsiaCallback = () => {
   const [code, setCode] = useState(null);
   const [state, setState] = useState(null);
+  const [errorTimeout, setErrorTimeout] = useState(false);
 
   const {isAuth, isLoading, userData, error} = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -60,16 +54,24 @@ const EsiaCallback = () => {
 
   }, []);
 
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setErrorTimeout(true);
+      }, 5000)
+    }
+  }, [error])
+
   return(
-    <Div>
+    <Container>
       {/* your code is <br />{code} <br /> your state is <br />{state} <br /> <br /> isAuth = {isAuth ? 'true' : 'false'} */}
         {
           isLoading
           ?     
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mt: '10px'}}>
+            {/* <Typography>
               Идет авторизация...
-            </Typography>
+            </Typography> */}
             <CircularProgress />
           </Box>
           : false
@@ -77,12 +79,15 @@ const EsiaCallback = () => {
         {
           error
           ? <>
-              <Alert severity="error">{error}</Alert>
-              <Navigate to='/auth' replace />
+              {
+              errorTimeout
+                ? <Navigate to='/auth' replace />
+                : <Alert severity="error">{error}</Alert>
+              }
             </>
           : false
         }
-    </Div>
+    </Container>
 
   )
 }

@@ -5,7 +5,7 @@ import AuthorizationPage from "../components/auth/AuthorizationPage";
 import TilemapPage from "../components/tilemap/TilemapPage";
 import { useCallback } from "react";
 import { useSelector } from "react-redux";
-import { OAuthPopup } from "@tasoskakour/react-use-oauth2";
+import EsiaCallback from "../components/auth/EsiaCallback";
 
 const AppRouter = () => {
   // clear credentials watermark on all highcharts diagrams
@@ -13,7 +13,7 @@ const AppRouter = () => {
     document.querySelectorAll('.highcharts-credits').forEach((chartCredentials) => chartCredentials.style.display = 'none');
   });
 
-  const {isAuth} = useSelector(state => state.user);
+  const {isAuth, needRedirectToAuth} = useSelector(state => state.user);
 
   const ProtectedRoute = ({ user, redirectPath = '/auth', children }) => {
     if (!isAuth) {
@@ -54,7 +54,12 @@ const AppRouter = () => {
       </ProtectedRoute>
     }>
     </Route>
-    <Route element={<OAuthPopup />} path="/callback" />
+    <Route path="/callback" element={
+      <AuthRedirectRoute>
+        <EsiaCallback></EsiaCallback>
+      </AuthRedirectRoute>
+    }>
+    </Route>
     <Route path="*" element={<p>There's nothing here: 404!</p>} />
   </Routes>)
 }

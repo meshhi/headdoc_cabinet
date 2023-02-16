@@ -20,11 +20,6 @@ const AuthorizationPage = () => {
   const [authUrl, setAuthUrl] = useState();
   const [esiaUrlReady, setEsiaUrlReady] = useState(false);
 
-  const handleEsiaAuth = (event) => {
-    // getAuth();
-    // dispatch(setAuthFlag(!isAuth))
-  }
-
   const handleLogin = (event) => {
     const reqData = {
       username,
@@ -42,21 +37,21 @@ const AuthorizationPage = () => {
     setPassword(event.target.value);
   }
 
-  useEffect(() => {
-    const getUrl = async() => {
-      try {
-        let response = await axios.get('http://10.1.3.109:8000/esia_login/login');
-        console.log(response);
-        const authorizeUrl = response.data;
-        console.log(authorizeUrl);
-        setAuthUrl(authorizeUrl);
-        setEsiaUrlReady(true);
-      } catch(e) {
-        setEsiaUrlReady(false);
-      }
-    };
+  const getEsiaUrl = async() => {
+    try {
+      let response = await axios.get('http://10.1.3.109:8000/esia_login/login');
+      console.log(response);
+      const authorizeUrl = response.data;
+      console.log(authorizeUrl);
+      setAuthUrl(authorizeUrl);
+      setEsiaUrlReady(true);
+    } catch(e) {
+      setEsiaUrlReady(false);
+    }
+  };
 
-    getUrl();
+  useEffect(() => {
+    getEsiaUrl();
   }, [])
 
   return(

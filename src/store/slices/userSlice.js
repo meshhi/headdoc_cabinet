@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, logout } from './ActionCreators';
+import { login, loginEsia, logout } from './ActionCreators';
 
 const initialState = {
   isAuth: false,
   isLoading: false,
+  error: '',
   userData: '',
 };
 
@@ -27,6 +28,20 @@ const userSlice = createSlice({
         state.isAuth = true;
       },
       [login.rejected.type]: (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+        state.isAuth = false;
+      },
+      [loginEsia.pending.type]: (state) => {
+        state.isLoading = true;
+      },
+      [loginEsia.fulfilled.type]: (state, action) => {
+        state.isLoading = false;
+        state.error = '';
+        state.userData = action.payload;
+        state.isAuth = true;
+      },
+      [loginEsia.rejected.type]: (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
         state.isAuth = false;

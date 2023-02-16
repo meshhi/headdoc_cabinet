@@ -2103,13 +2103,6 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
-"@tasoskakour/react-use-oauth2@^1.0.14":
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/@tasoskakour/react-use-oauth2/-/react-use-oauth2-1.0.14.tgz#d16aee877d454f1cf124880d2c7bb52189fb696f"
-  integrity sha512-7G8Ld4zmMhYMVOijHGmPZVqls/HLvXAJXTpKq6B8tmjl/aOeY/GXNj6bMz2cZTugZzAAW+3Uy6sV50m8GxAjJA==
-  dependencies:
-    use-local-storage-state "^18.1.0"
-
 "@testing-library/dom@^8.5.0":
   version "8.20.0"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-8.20.0.tgz#914aa862cef0f5e89b98cc48e3445c4c921010f6"
@@ -9557,11 +9550,6 @@ url-parse@^1.5.3:
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
-
-use-local-storage-state@^18.1.0:
-  version "18.1.2"
-  resolved "https://registry.yarnpkg.com/use-local-storage-state/-/use-local-storage-state-18.1.2.tgz#f131c0aa3803742ca261c547cdfd9d61e848581d"
-  integrity sha512-V+kYQNC5R0N/JDpsg6b4ED5UaItKJcSvbne68DwJDZWHxGMQBiF41ATktFIOyet3PIq30d2qtzVp/2aB6hQ8Bg==
 
 use-sync-external-store@^1.0.0:
   version "1.2.0"

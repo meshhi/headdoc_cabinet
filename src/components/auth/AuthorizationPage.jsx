@@ -19,6 +19,7 @@ const AuthorizationPage = () => {
 
   const [authUrl, setAuthUrl] = useState();
   const [esiaUrlReady, setEsiaUrlReady] = useState(false);
+  const [esiaUrlError, setEsiaUrlError] = useState(true);
 
   const handleLogin = (event) => {
     const reqData = {
@@ -40,13 +41,14 @@ const AuthorizationPage = () => {
   const getEsiaUrl = async() => {
     try {
       let response = await axios.get('http://10.1.3.109:8000/esia_login/login');
-      console.log(response);
       const authorizeUrl = response.data;
       console.log(authorizeUrl);
       setAuthUrl(authorizeUrl);
       setEsiaUrlReady(true);
+      setEsiaUrlError(false)
     } catch(e) {
       setEsiaUrlReady(false);
+      setEsiaUrlError(true)
     }
   };
 
@@ -62,7 +64,7 @@ const AuthorizationPage = () => {
             <CardContent>
               <Grid container>
                 <Grid container item xs={12} justifyContent="center" alignItems="center">
-                  <EsiaButton authUrl={authUrl} esiaUrlReady={esiaUrlReady}></EsiaButton>
+                  <EsiaButton authUrl={authUrl} esiaUrlReady={esiaUrlReady} esiaUrlError={esiaUrlError}></EsiaButton>
                 </Grid>
               </Grid>     
             </CardContent>
@@ -70,24 +72,23 @@ const AuthorizationPage = () => {
         </Card>
         <Card>
           <CardContent>
-              <Grid container item xs={12} justifyContent="center" alignItems="center" >
-                <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                  <AccountCircleIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                  <TextField id="input-with-sx" label="Логин" variant="standard" onChange={handleLoginInputChange}/>
-                </Box>
-              </Grid>
-              <Grid container item xs={12} justifyContent="center" alignItems="center" >
-                <Box sx={{ display: 'flex', alignItems: 'flex-end', my: 0.5 }}>
-                  <PasswordIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                  <TextField id="input-with-sx" label="Пароль" variant="standard" type="password" onChange={handlePasswordInputChange}/>
-                </Box>
-              </Grid>
-              <Grid container item xs={12} justifyContent="center" alignItems="center" >
-                <Box sx={{ display: 'flex', alignItems: 'flex-end', mt: 4 }}>
-                  <Button variant="contained" onClick={handleLogin}>Войти</Button>
-                </Box>
-              </Grid>
-              
+            <Grid container item xs={12} justifyContent="center" alignItems="center" >
+              <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                <AccountCircleIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                <TextField id="input-with-sx" label="Логин" variant="standard" onChange={handleLoginInputChange}/>
+              </Box>
+            </Grid>
+            <Grid container item xs={12} justifyContent="center" alignItems="center" >
+              <Box sx={{ display: 'flex', alignItems: 'flex-end', my: 0.5 }}>
+                <PasswordIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                <TextField id="input-with-sx" label="Пароль" variant="standard" type="password" onChange={handlePasswordInputChange}/>
+              </Box>
+            </Grid>
+            <Grid container item xs={12} justifyContent="center" alignItems="center" >
+              <Box sx={{ display: 'flex', alignItems: 'flex-end', mt: 4 }}>
+                <Button variant="contained" onClick={handleLogin}>Войти</Button>
+              </Box>
+            </Grid>
           </CardContent>
         </Card>
       </Grid>

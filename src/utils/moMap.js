@@ -517,7 +517,14 @@ const arkhangelskRegion = [
   },
 ]
 
-export const moMap = [
+export const moMapDesktop = [
+  ...arkhangelskRegion,
+  ...arkhangelsk,
+  ...severodvinsk,
+  ...region,
+]
+
+export const moMapMobile = [
   ...arkhangelskRegion,
   ...arkhangelsk,
   ...severodvinsk,

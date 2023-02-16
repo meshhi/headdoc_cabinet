@@ -27,15 +27,11 @@ const EsiaCallback = () => {
 
 
   useEffect(() => {
-    console.log('useeffect')
     const code = (window.location.search.match(/code=([^&]+)/) || [])[1];
     const state = (window.location.search.match(/state=([^&]+)/) || [])[1];
 
     setCode(code)
     setState(state)
-    console.log(code)
-    console.log(state)
-
 
     if (!isLoading && !error) {
       if (code && state) {

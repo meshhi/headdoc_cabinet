@@ -6,6 +6,7 @@ import TilemapPage from "../components/tilemap/TilemapPage";
 import { useCallback } from "react";
 import { useSelector } from "react-redux";
 import EsiaCallback from "../components/auth/EsiaCallback";
+import ProfilePage from "../components/profile/ProfilePage";
 
 const AppRouter = () => {
   // clear credentials watermark on all highcharts diagrams
@@ -51,6 +52,12 @@ const AppRouter = () => {
     <Route path="/admin" element={
       <ProtectedRoute>
         <AdminPanel />
+      </ProtectedRoute>
+    }>
+    </Route>
+    <Route path="/profile" element={
+      <ProtectedRoute>
+        <ProfilePage />
       </ProtectedRoute>
     }>
     </Route>

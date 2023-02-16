@@ -21,6 +21,7 @@ const TilemapFilter = ({currentIndicator, setCurrentIndicator}) => {
 
   return(
     <Grid container spacing={2} justifyContent="center" alignItems="center" sx={{marginTop: 2, marginBottom: 5}}>
+      <Grid item xs={12} md={8}>
         <Autocomplete
           disablePortal
           id="combo-box-current-indicator"
@@ -42,13 +43,15 @@ const TilemapFilter = ({currentIndicator, setCurrentIndicator}) => {
               setCurrentIndicator(newValue)
             };
           }}
-            sx={{ width: '60%', marginRight: '1%' }}
+            sx={{ width: 'auto'}}
             renderInput={(params) => <TextField
               {...params}
             label="Выберите показатель"
             />}
         />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+      </Grid>
+      <Grid item xs={12} md="auto" sx={{display: 'flex', justifyContent: 'center'}}>
+        <LocalizationProvider sx={{ width: 'auto'}} dateAdapter={AdapterDayjs}>
           <DatePicker
             label="Выберите дату"
             value={mapDate}
@@ -61,6 +64,8 @@ const TilemapFilter = ({currentIndicator, setCurrentIndicator}) => {
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
+      </Grid>
+        
     </Grid>
   )
 }

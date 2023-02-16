@@ -8,10 +8,12 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAppointments, fetchMoList } from '../../store/slices/ActionCreators';
 import dateConverter from '../../utils/dateConverter';
-import { moMap } from '../../utils/moMap'
+import { moMapDesktop, moMapMobile } from '../../utils/moMap'
 import Snackbar from '../indicator_pages/indicator_helpers/Snackbar'
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
+import { memo } from "react";
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 highchartsMore(Highcharts);
 highChartsHeatmap(Highcharts);
@@ -30,12 +32,14 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
     return {label: currentMoName, id: currentMoId };
   });
 
+  const max700 = useMediaQuery('(max-width:700px)');
+
   // generate data for tilemap diagram
   const moListChoose = useSelector(state => {
     const moList = state.moList.moList
       .filter(mo => mo.id === 417 || mo.parent === 417)
       .map(mo => {
-          for (let item of moMap) {
+          for (let item of (max700 ? moMapMobile : moMapDesktop)) {
             if (item.id === mo.id) {
               return item;
             }
@@ -152,10 +156,99 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
   const linkRef = useRef(null);
 
 
-  const options = {
+  const optionsDesktop = {
     chart: {
         type: 'tilemap',
         inverted: false,
+        height: (9 / 16 * 100) + '%',
+        // width: 1000,
+    },
+
+    accessibility: {
+        description: 'Map of Arkhangelsk region indicators',
+        point: {
+            valueDescriptionFormat: '{xDescription}, indicator {point.value}.'
+        }
+    },
+
+    title: {
+      enabled: false,
+      text: null
+    },
+    legend: false,
+    // subtitle: {
+    //     text: 'Source:<a href="https://simple.wikipedia.org/wiki/List_of_U.S._states_by_population">Wikipedia</a>'
+    // },
+
+    xAxis: {
+        visible: false
+    },
+
+    yAxis: {
+        visible: false
+    },
+
+    colorAxis: {
+        dataClasses: [{
+          from: -1,
+          to: -1,
+          color: '#c9c9c9',
+          name: 'Нет данных'
+        },
+        {
+            from: 0,
+            to: 50,
+            color: '#ff5b60',
+            name: '0-50%'
+        }, {
+            from: 50,
+            to: 80,
+            color: '#ffc372',
+            name: '51-80%'
+        }, {
+            from: 80,
+            to: 100,
+            color: '#00db9d',
+            name: '81-100%'
+        },]
+    },
+
+    tooltip: {
+        headerFormat: '',
+        pointFormat: '<b> {point.name} {point.value}%</b>'
+    },
+
+    plotOptions: {
+        series: {
+            dataLabels: {
+                enabled: true,
+                format: '{point.hc-a2}',
+                color: '#000000',
+                style: {
+                    textOutline: false
+                }
+            },
+            events: {
+              click: (event) => {
+                dispatch(setCurrentMo({id: event.point.options.id, name: event.point.options.name}))
+                linkRef.current.click()
+              }
+            }
+        }
+    },
+
+    series: [{
+        name: '',
+        data: moListChoose,
+        // data: moMap,
+        cursor: 'pointer',
+    }]
+  }
+
+  const optionsMobile = {
+    chart: {
+        type: 'tilemap',
+        inverted: true,
         height: (9 / 16 * 100) + '%',
         // width: 1000,
     },
@@ -255,7 +348,7 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
       </Box>
       <HighchartsReact
         highcharts={Highcharts}
-        options={options}
+        options={max700 ? optionsMobile : optionsDesktop}
       />  
       <Link to="/details" ref={linkRef}></Link>
       <Snackbar mustBeOpen={isSnack} snackText={`Нет данных на ${dateConverter.dateToStrForRequest(mapDate)}`}/>
@@ -263,4 +356,4 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
   )
 };
 
-export default TileMap;
+export default memo(TileMap);

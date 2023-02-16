@@ -1,6 +1,7 @@
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { useEffect } from 'react';
+import { memo } from "react";
 
 const SemdsMSColumn = ({clear}) => {
 
@@ -97,4 +98,4 @@ const SemdsMSColumn = ({clear}) => {
   )
 };
 
-export default SemdsMSColumn;
+export default memo(SemdsMSColumn);

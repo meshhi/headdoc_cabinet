@@ -21,6 +21,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router";
+import MedicationIcon from '@mui/icons-material/Medication';
 
 import { setAuthFlag } from "../../store/slices/userSlice";
 import { logout } from '../../store/slices/ActionCreators'
@@ -77,6 +78,7 @@ function PrimarySearchAppBar() {
 
   const adminRef = useRef(null);
   const mainRef = useRef(null);
+  const profileRef = useRef(null);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -112,12 +114,20 @@ function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Мой профиль</MenuItem>
+      <MenuItem onClick={() => {
+          handleMenuClose();
+          profileRef.current.click();
+        }
+      }>Мой профиль
+        <Link to="/profile" ref={profileRef}></Link>
+      </MenuItem>
       <MenuItem onClick={(event) => {
           handleMenuClose(event);
           dispatch(logout());
         }
-      }>Выйти</MenuItem>
+      }>Выйти
+      
+      </MenuItem>
     </Menu>
   );
 
@@ -196,7 +206,7 @@ function PrimarySearchAppBar() {
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, display: { xs: "none", sm: "block" }, cursor: 'pointer' }}
           >
             <MenuIcon />
           </IconButton>
@@ -210,6 +220,18 @@ function PrimarySearchAppBar() {
             }}
           >
             Кабинет личной эффективности
+            <Link to="/" ref={mainRef}></Link>
+          </Typography>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ display: { xs: "flex", sm: "none" }, cursor: 'pointer', justifyContent: 'center', alignItems: 'center' }}
+            onClick={() => {
+              mainRef.current.click();
+            }}
+          >
+              <MedicationIcon />
             <Link to="/" ref={mainRef}></Link>
           </Typography>
           <Box sx={{ flexGrow: 1 }} />

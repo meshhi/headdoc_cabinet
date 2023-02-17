@@ -21,11 +21,6 @@ const AuthorizationPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const [authUrl, setAuthUrl] = useState();
-
-  const [esiaUrlReady, setEsiaUrlReady] = useState(false);
-  const [esiaUrlError, setEsiaUrlError] = useState(false);
-
   const handleLogin = (event) => {
     if (username && password) {
       const reqData = {
@@ -48,29 +43,11 @@ const AuthorizationPage = () => {
     setPassword(event.target.value);
   }
 
-  const getEsiaUrl = useCallback(async() => {
-    try {
-      let response = await axios.get(GET_SIGNED_ESIA_URL);
-      const authorizeUrl = response.data;
-      console.log(authorizeUrl);
-      setAuthUrl(authorizeUrl);
-      setEsiaUrlReady(true);
-      setEsiaUrlError(false)
-    } catch(e) {
-      setEsiaUrlReady(false);
-      setEsiaUrlError(true)
-    }
-  });
-
   const handleGridKeyUp = (event) => {
     if (event.keyCode === 13) {
       handleLogin();
     }
   }
-
-  useEffect(() => {
-
-  }, [])
 
   return(
     <Grid container justifyContent="center" alignItems="center" onKeyUp={handleGridKeyUp}>
@@ -80,7 +57,7 @@ const AuthorizationPage = () => {
             <CardContent>
               <Grid container>
                 <Grid container item xs={12} justifyContent="center" alignItems="center">
-                  <EsiaButton authUrl={authUrl} getEsiaUrl={getEsiaUrl} esiaUrlReady={esiaUrlReady} esiaUrlError={esiaUrlError}></EsiaButton>
+                  <EsiaButton ></EsiaButton>
                 </Grid>
               </Grid>     
             </CardContent>

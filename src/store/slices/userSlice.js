@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, loginEsia, logout } from './ActionCreators';
+import { login, loginEsia, logout, getEsiaUrl } from './ActionCreators';
 
 const initialState = {
   isAuth: false,
   isLoading: false,
   error: '',
   userData: '',
-  
+  esiaUrl: '',
 };
 
 const userSlice = createSlice({
@@ -41,11 +41,13 @@ const userSlice = createSlice({
         state.error = '';
         state.userData = action.payload;
         state.isAuth = true;
+        state.esiaUrl = '';
       },
       [loginEsia.rejected.type]: (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
         state.isAuth = false;
+        state.esiaUrl = '';
       },
       [logout.pending.type]: (state) => {
         state.isLoading = true;
@@ -57,6 +59,18 @@ const userSlice = createSlice({
         state.isAuth = false;
       },
       [logout.rejected.type]: (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      },
+      [getEsiaUrl.pending.type]: (state) => {
+        state.isLoading = true;
+      },
+      [getEsiaUrl.fulfilled.type]: (state, action) => {
+        state.isLoading = false;
+        state.error = '';
+        state.esiaUrl = action.payload;
+      },
+      [getEsiaUrl.rejected.type]: (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       }

@@ -1,20 +1,30 @@
-import axios from 'axios';
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { Button } from "@mui/material";
 import Alert from '@mui/material/Alert';
+import { getEsiaUrl } from '../../store/slices/ActionCreators';
 
-const EsiaButton = ({authUrl, esiaUrlReady, esiaUrlError}) => {
+const EsiaButton = () => {
+  const dispatch = useDispatch();
+  const {isLoading, error, esiaUrl} = useSelector(state => state.user);
 
   const handleEsiaAuth = () => {
-    // console.log(authUrl)
-    window.location.assign(authUrl);
+    dispatch(getEsiaUrl());
   }
+
+  useEffect(() => {
+    console.log(esiaUrl)
+    if (esiaUrl) {
+      window.location.assign(esiaUrl);
+    }
+  }, [esiaUrl])
 
   return(
     <>
-      <Button onClick={handleEsiaAuth} disabled={esiaUrlReady ? false : true}>Авторизоваться через ЕСИА</Button>
+    
+      <Button onClick={handleEsiaAuth} disabled={isLoading ? true : false}>Авторизоваться через ЕСИА</Button>
       {
-      esiaUrlError
+      error
         ? <Alert severity="error">Авторизация ЕСИА сломалася... &#128554;</Alert>
         : false
       }

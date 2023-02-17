@@ -69,9 +69,7 @@ const AuthorizationPage = () => {
   }
 
   useEffect(() => {
-    console.log('useeff')
-    getEsiaUrl();
-    
+
   }, [])
 
   return(
@@ -82,7 +80,7 @@ const AuthorizationPage = () => {
             <CardContent>
               <Grid container>
                 <Grid container item xs={12} justifyContent="center" alignItems="center">
-                  <EsiaButton authUrl={authUrl} esiaUrlReady={esiaUrlReady} esiaUrlError={esiaUrlError}></EsiaButton>
+                  <EsiaButton authUrl={authUrl} getEsiaUrl={getEsiaUrl} esiaUrlReady={esiaUrlReady} esiaUrlError={esiaUrlError}></EsiaButton>
                 </Grid>
               </Grid>     
             </CardContent>

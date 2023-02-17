@@ -9,30 +9,49 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import { Link, Navigate } from 'react-router-dom';
+import React from 'react';
+import { connect } from 'react-redux';
 
-const Div = styled('div')(({ theme }) => ({
-  ...theme.typography.button,
-  backgroundColor: theme.palette.background.paper,
-  padding: theme.spacing(1),
-  overflow: 'hidden',
-  overflowWrap: 'anywhere'
-}));
-
-const ProfilePage = () => {
-  const {isAuth, isLoading, userData, error} = useSelector(state => state.user);
-  const dispatch = useDispatch();
+// const ProfilePage = () => {
+//   const {isAuth, isLoading, userData, error} = useSelector(state => state.user);
+//   const dispatch = useDispatch();
 
 
-  useEffect(() => {
-  }, []);
+//   useEffect(() => {
+//   }, []);
 
-  return(
-    <Div>
-      {/* your code is <br />{code} <br /> your state is <br />{state} <br /> <br /> isAuth = {isAuth ? 'true' : 'false'} */}
-      profile page
-    </Div>
+//   return(
+//   )
+// }
 
-  )
+
+class ProfilePage extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return(
+      <>
+        <div>This is class</div>
+        <div>{this.props.user.userData.auth_token}</div>
+      </>
+    )
+  }
 }
 
-export default ProfilePage;
+const mapStateToProps = state => {
+  //replace Reducer name with state.'Your Reducer name' and .property
+        return {
+          user: state.user,
+        };
+      };
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     CallinComponent: () => {
+//       dispatch(MiddlewareName.ActionName());
+//     },
+//   }
+// };
+  
+export default connect(mapStateToProps)(ProfilePage);

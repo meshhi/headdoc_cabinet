@@ -19,7 +19,7 @@ highchartsMore(Highcharts);
 highChartsHeatmap(Highcharts);
 highChartsTilemap(Highcharts);
 
-const TileMap = ({clear, setCurrentMo, indicator}) => {
+const TileMap = ({clear, setCurrentMo, indicator, setIsSnack, isSnack}) => {
   const dispatch = useDispatch();
   const {mapDate} = useSelector(state => state.diagramDates)
 
@@ -128,7 +128,7 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
     }
   });
 
-  const [isSnack, setIsSnack] = useState(false)
+  
 
   useEffect(() => {
     clear();
@@ -351,7 +351,6 @@ const TileMap = ({clear, setCurrentMo, indicator}) => {
         options={max700 ? optionsMobile : optionsDesktop}
       />  
       <Link to="/details" ref={linkRef}></Link>
-      <Snackbar mustBeOpen={isSnack} snackText={`Нет данных на ${dateConverter.dateToStrForRequest(mapDate)}`}/>
     </>
   )
 };

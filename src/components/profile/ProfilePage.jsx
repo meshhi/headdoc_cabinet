@@ -1,57 +1,64 @@
-import axios from 'axios';
-import { useState, useEffect } from "react";
-import { styled } from '@mui/material/styles';
-import { useDispatch, useSelector } from 'react-redux';
-import { setAuthFlag } from '../../store/slices/userSlice';
-import { loginEsia } from '../../store/slices/ActionCreators';
-import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Alert from '@mui/material/Alert';
-import { Link, Navigate } from 'react-router-dom';
+import Paper from '@mui/material/Paper';
 import React from 'react';
 import { connect } from 'react-redux';
-
-// const ProfilePage = () => {
-//   const {isAuth, isLoading, userData, error} = useSelector(state => state.user);
-//   const dispatch = useDispatch();
-
-
-//   useEffect(() => {
-//   }, []);
-
-//   return(
-//   )
-// }
-
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  componentDidMount() {
+    
+  }
+
   render() {
     return(
-      <>
-        <div>This is class</div>
-        <div>{this.props.user.userData.auth_token}</div>
-      </>
+      <Card sx={{ width: '100%' }}>
+      {/* <CardMedia
+        sx={{ minHeight: '50vh' }}
+        image="/static/images/cards/contemplative-reptile.jpg"
+        title="green iguana"
+      /> */}
+      <CardContent>
+        <Typography>
+          Имя: {this.props.user.userData.firstName}
+        </Typography>
+        <Typography>
+          Отчество: {this.props.user.userData.middleName}
+        </Typography>
+        <Typography>
+          Фамилия: {this.props.user.userData.lastName}
+        </Typography>
+        <Typography>
+          СНИЛС: {this.props.user.userData.snils}
+        </Typography>
+        <Typography>
+          Дата рождения: {this.props.user.userData.birthDate}
+        </Typography>
+        <Typography>
+          Телефон: {this.props.user.userData.phone}
+        </Typography>
+      </CardContent>
+      {/* <CardActions>
+        <Button size="small">Share</Button>
+        <Button size="small">Learn More</Button>
+      </CardActions> */}
+    </Card>
     )
   }
 }
 
 const mapStateToProps = state => {
-  //replace Reducer name with state.'Your Reducer name' and .property
         return {
           user: state.user,
         };
       };
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     CallinComponent: () => {
-//       dispatch(MiddlewareName.ActionName());
-//     },
-//   }
-// };
   
 export default connect(mapStateToProps)(ProfilePage);

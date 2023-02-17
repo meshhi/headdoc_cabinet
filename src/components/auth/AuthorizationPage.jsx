@@ -89,8 +89,6 @@ const AuthorizationPage = () => {
                 </Grid>
               </>
             }
-
-
             <Grid container item xs={12} justifyContent="center" alignItems="center" >
               <Box sx={{ display: 'flex', alignItems: 'flex-end', mt: 4 }}>
                 <Button variant="contained" onClick={handleLogin} disabled={isLoading ? true : false}>Войти</Button>

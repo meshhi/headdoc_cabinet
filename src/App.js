@@ -5,6 +5,7 @@ import { Grid } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setAuthFlag } from './store/slices/userSlice';
+import { checkAuthentication } from './store/slices/ActionCreators';
 import './App.css';
 
 function App() {
@@ -12,9 +13,11 @@ function App() {
 
   useEffect(() => {
     if (localStorage.getItem('authToken')) {
+      // dispatch(checkAuthentication());
       dispatch(setAuthFlag(true));
     }
   }, [])
+  
   return (
     <BrowserRouter>
       <Header />

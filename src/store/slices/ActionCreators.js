@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { GET_MO_LIST_URL, GET_APPOINTMENTS_URL, LOGIN, LOGIN_ESIA, LOGOUT, GET_DOCTOR_LIST, GET_SIGNED_ESIA_URL } from "../api_urls/apiUrls";
+import { GET_MO_LIST_URL, GET_APPOINTMENTS_URL, LOGIN, LOGIN_ESIA, LOGOUT, GET_DOCTOR_LIST, GET_SIGNED_ESIA_URL, CHECK_AUTHENTICATION } from "../api_urls/apiUrls";
 
 
 // moListSlice
@@ -82,6 +82,35 @@ export const login = createAsyncThunk(
       
       const response = await axios(config);
       localStorage.setItem('authToken', response.data.auth_token);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message)
+    }
+  }
+)
+
+export const checkAuthentication = createAsyncThunk(
+  "auth/checkAuthentication",
+  async (reqData, thunkApi) => {
+    try {
+      const config = {
+        method: 'post',
+        url: CHECK_AUTHENTICATION,
+        // headers: {
+        //   'Content-Disposition': `attachment; filename=${file.name}`
+        // },
+        // params: { 
+        //   code: reqData.code,
+        //   state: reqData.state,
+        // },
+        data: {
+          username: reqData.username,
+          password: reqData.password,
+        },
+      };
+      
+      const response = await axios(config);
+      // localStorage.setItem('authToken', response.data.auth_token);
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message)

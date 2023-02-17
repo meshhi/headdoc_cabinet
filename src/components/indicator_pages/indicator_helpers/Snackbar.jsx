@@ -10,7 +10,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const CustomSnackbar = ({mustBeOpen, snackText}) => {
+const CustomSnackbar = ({mustBeOpen, snackText, severity}) => {
   const [open, setOpen] = useState(false);
 
   const handleClose = (event, reason) => {
@@ -53,7 +53,7 @@ const CustomSnackbar = ({mustBeOpen, snackText}) => {
         action={action}
         anchorOrigin={{vertical: "bottom", horizontal: "left"}}
       >
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%', backgroundColor: '#ff5b60' }}>{snackText}</Alert>
+        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%', backgroundColor: severity === 'error' ? '#ff5b60' : '#00db9d' }}>{snackText}</Alert>
       </Snackbar>
   )
 }

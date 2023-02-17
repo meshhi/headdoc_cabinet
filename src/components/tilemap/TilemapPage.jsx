@@ -47,8 +47,8 @@ const TilemapPage = ({clear}) => {
         </div>
       </Grid>
       <Stack spacing={2}>
-        <Snackbar mustBeOpen={isSnackAuth} snackText={`Вы вошли ${userData.firstName} ${userData.lastName}`}/>
-        <Snackbar mustBeOpen={isSnackAppointments} snackText={`Нет данных на ${dateConverter.dateToStrForRequest(mapDate)}`}/>
+        <Snackbar mustBeOpen={isSnackAuth} snackText={`Вы вошли ${userData.firstName} ${userData.lastName}`} severity="success"/>
+        <Snackbar mustBeOpen={isSnackAppointments} snackText={`Нет данных на ${dateConverter.dateToStrForRequest(mapDate)}`} severity="error"/>
       </Stack>
     </Grid>
   )

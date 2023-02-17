@@ -5,8 +5,10 @@ const initialState = {
   isAuth: false,
   isLoading: false,
   error: '',
-  userData: '',
+  esiaLoading: false,
+  esiaError: '',
   esiaUrl: '',
+  userData: '',
 };
 
 const userSlice = createSlice({
@@ -48,18 +50,18 @@ const userSlice = createSlice({
         state.isAuth = false;
       },
       [loginEsia.pending.type]: (state) => {
-        state.isLoading = true;
+        state.esiaLoading = true;
       },
       [loginEsia.fulfilled.type]: (state, action) => {
-        state.isLoading = false;
-        state.error = '';
+        state.esiaLoading = false;
+        state.esiaError = '';
         state.userData = action.payload;
         state.isAuth = true;
         state.esiaUrl = '';
       },
       [loginEsia.rejected.type]: (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
+        state.esiaLoading = false;
+        state.esiaError = action.payload;
         state.isAuth = false;
         state.esiaUrl = '';
       },
@@ -80,13 +82,13 @@ const userSlice = createSlice({
         state.isLoading = true;
       },
       [getEsiaUrl.fulfilled.type]: (state, action) => {
-        state.isLoading = false;
-        state.error = '';
+        // state.isLoading = false;
+        state.esiaError = '';
         state.esiaUrl = action.payload;
       },
       [getEsiaUrl.rejected.type]: (state, action) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.esiaError = action.payload;
       }
     }
   })

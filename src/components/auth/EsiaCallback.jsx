@@ -16,7 +16,7 @@ const EsiaCallback = () => {
   const [state, setState] = useState(null);
   const [errorTimeout, setErrorTimeout] = useState(false);
 
-  const {isAuth, isLoading, userData, error} = useSelector(state => state.user);
+  const {isAuth, isLoading, userData, error, esiaError, esiaLoading} = useSelector(state => state.user);
   const dispatch = useDispatch();
 
 
@@ -27,7 +27,7 @@ const EsiaCallback = () => {
     setCode(code)
     setState(state)
 
-    if (!isLoading && !error) {
+    if (!isLoading && !esiaLoading && !esiaError && !error) {
       if (code && state) {
         const reqData = {
           code,
@@ -55,18 +55,18 @@ const EsiaCallback = () => {
   }, []);
 
   useEffect(() => {
-    if (error) {
+    if (esiaError) {
       setTimeout(() => {
         setErrorTimeout(true);
       }, 5000)
     }
-  }, [error])
+  }, [esiaError])
 
   return(
     <Container>
       {/* your code is <br />{code} <br /> your state is <br />{state} <br /> <br /> isAuth = {isAuth ? 'true' : 'false'} */}
         {
-          isLoading
+          isLoading || esiaLoading
           ?     
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mt: '10px'}}>
             {/* <Typography>
@@ -77,12 +77,12 @@ const EsiaCallback = () => {
           : false
         }
         {
-          error
+          esiaError
           ? <>
               {
               errorTimeout
                 ? <Navigate to='/auth' replace />
-                : <Alert severity="error">{error}</Alert>
+                : <Alert severity="error">{esiaError}</Alert>
               }
             </>
           : false

@@ -17,7 +17,7 @@ import { useCallback } from 'react';
 const AuthorizationPage = () => {
 
   const dispatch = useDispatch();
-  const {isAuth, isLoading, error} = useSelector(state => state.user);
+  const {isAuth, isLoading, error, esiaLoading} = useSelector(state => state.user);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -66,7 +66,7 @@ const AuthorizationPage = () => {
         <Card>
           <CardContent>
             {
-              isLoading
+              isLoading || esiaLoading
               ?    
               <Grid container item xs={12} justifyContent="center" alignItems="center" >
                 <Box sx={{ display: 'flex' }}>

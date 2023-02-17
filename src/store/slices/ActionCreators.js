@@ -93,6 +93,9 @@ export const checkAuthentication = createAsyncThunk(
   "auth/checkAuthentication",
   async (reqData, thunkApi) => {
     try {
+      const data = new FormData();
+      data.append('token', localStorage.getItem('authToken'));
+
       const config = {
         method: 'post',
         url: CHECK_AUTHENTICATION,
@@ -103,10 +106,7 @@ export const checkAuthentication = createAsyncThunk(
         //   code: reqData.code,
         //   state: reqData.state,
         // },
-        data: {
-          username: reqData.username,
-          password: reqData.password,
-        },
+        data: data,
       };
       
       const response = await axios(config);

@@ -6,14 +6,13 @@ import { getEsiaUrl } from '../../store/slices/ActionCreators';
 
 const EsiaButton = () => {
   const dispatch = useDispatch();
-  const {isLoading, error, esiaUrl} = useSelector(state => state.user);
+  const {isLoading, error, esiaUrl, esiaError} = useSelector(state => state.user);
 
   const handleEsiaAuth = () => {
     dispatch(getEsiaUrl());
   }
 
   useEffect(() => {
-    console.log(esiaUrl)
     if (esiaUrl) {
       window.location.assign(esiaUrl);
     }
@@ -24,7 +23,7 @@ const EsiaButton = () => {
     
       <Button onClick={handleEsiaAuth} disabled={isLoading ? true : false}>Авторизоваться через ЕСИА</Button>
       {
-      error
+      esiaError
         ? <Alert severity="error">Авторизация ЕСИА сломалася... &#128554;</Alert>
         : false
       }

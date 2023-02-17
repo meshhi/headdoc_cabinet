@@ -72,25 +72,21 @@ const TileMap = ({clear, setCurrentMo, indicator, setIsSnack, isSnack}) => {
 
     // count values for doctor semds
     const returnDoctorsSemd = () => {
-      if (state.appointments.appointments.length == 0) {
-        return moList.map(mo => {
-            mo.value = -1;
-            return mo
-          }
-        );
-      }
-      
-      const appointmentsMo = moList.map(mo => {
-        for (let appointmentRecord of state.appointments.appointments) {
-          if (mo.id === appointmentRecord.mo.id) {
-            mo.value = appointmentRecord.percent - 100;
+      const doctorsSemdMo = moList.map(mo => {
+        for (let moRecord of state.moList.moList) {
+          if (mo.id === moRecord.id) {
+            if (moRecord.semd_percent) {
+              mo.value = Number(moRecord.semd_percent.toFixed(2));
+            } else {
+              mo.value = -1;
+            }
             break;
           }
         }
         return mo;
       })
 
-      return appointmentsMo;
+      return doctorsSemdMo;
     }
 
     // count values for ms stat

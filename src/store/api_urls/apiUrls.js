@@ -9,4 +9,5 @@ export const GET_SIGNED_ESIA_URL = `http://${baseUrl}/esia_login/login/`
 export const LOGIN_ESIA = `http://${baseUrl}/esia_login/callback/`
 export const LOGOUT = `http://${baseUrl}/auth/token/logout/`
 export const GET_DOCTOR_LIST = `http://${baseUrl}/api/doctor_list/`
+export const GET_DOCTOR_MO_MEDDOCS = `http://${baseUrl}/api/mo_med_docs/`
 export const CHECK_AUTHENTICATION = `http://${baseUrl}/esia_login/check_token/`

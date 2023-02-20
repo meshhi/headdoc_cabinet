@@ -10,6 +10,8 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import XrangeMock from "../diagrams/diagrams_mock/XrangeMock";
 import { Fade } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
+import { fetchMoMeddocs } from "../../store/slices/ActionCreators";
+import dateConverter from "../../utils/dateConverter";
 
 const XrangeList = () => {
   return(
@@ -26,7 +28,10 @@ const XrangeList = () => {
 
 const DoctorsSemdPage = ({clear, handleOpen}) => {
   const [isReveal, setReveal] = useState(false);
+  const {diagram2} = useSelector(state => state.diagramDates);
   const {moList, currentMoId} = useSelector(state => state.moList);
+  const {semdPercent} = useSelector(state => state.doctors);
+  const dispatch = useDispatch();
 
   const sumPercent = moList.find(({id}) => id === currentMoId).semd_percent
 
@@ -38,6 +43,14 @@ const DoctorsSemdPage = ({clear, handleOpen}) => {
     console.log('collapsed end')
   };
 
+  useEffect(() => {
+    const reqData = {
+      moId: currentMoId,
+      date: dateConverter.dateToStrForRequest(diagram2),
+    }
+    dispatch(fetchMoMeddocs(reqData))
+  }, [currentMoId, diagram2])
+
   return(
     <>
       <InfoLine indicatorNumber="1.2.6.2" tooltipText="Процент передачи СЭМД врачами"/>
@@ -45,7 +58,7 @@ const DoctorsSemdPage = ({clear, handleOpen}) => {
         Доля врачей, у которых не менее 2 СЭМД
         <Button id="2" size="small" onClick={handleOpen}>Подробно</Button>
       </Typography>
-      <DoctorsSemdBarSum clear={clear} percent={sumPercent}/>
+      <DoctorsSemdBarSum clear={clear} percent={semdPercent}/>
       <Grid container sx={{width: "100%"}} direction="column" justifyContent="center" alignItems="center">
         {
           isReveal
@@ -66,8 +79,6 @@ const DoctorsSemdPage = ({clear, handleOpen}) => {
               <XrangeMock></XrangeMock>
             </Box>
           </Fade>
-
-
         </Box>
       </Grid>
     </>

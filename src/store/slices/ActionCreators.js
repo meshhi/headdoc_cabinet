@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { GET_MO_LIST_URL, GET_APPOINTMENTS_URL, LOGIN, LOGIN_ESIA, LOGOUT, GET_DOCTOR_LIST, GET_SIGNED_ESIA_URL, CHECK_AUTHENTICATION } from "../api_urls/apiUrls";
+import { GET_MO_LIST_URL, GET_APPOINTMENTS_URL, LOGIN, LOGIN_ESIA, LOGOUT, GET_DOCTOR_LIST, GET_SIGNED_ESIA_URL, CHECK_AUTHENTICATION, GET_DOCTOR_MO_MEDDOCS } from "../api_urls/apiUrls";
 
 
 // moListSlice
@@ -208,7 +208,7 @@ export const logout = createAsyncThunk(
 
 // doctorsSemdSlice
 export const fetchDoctors = createAsyncThunk(
-  "doctors/fetch",
+  "doctors/fetchAllDoctors",
   async (reqData, thunkApi) => {
     try {
       const config = {
@@ -235,3 +235,32 @@ export const fetchDoctors = createAsyncThunk(
     }
   }
 )
+
+export const fetchMoMeddocs = createAsyncThunk(
+  "doctors/moMedDocs",
+  async (reqData, thunkApi) => {
+    try {
+      const config = {
+        method: 'get',
+        url: `${GET_DOCTOR_MO_MEDDOCS}${reqData.moId}/${reqData.date}`,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('authToken')}`
+        },
+        // params: { 
+        //   tvsp_id: reqData.tvspId,
+        //   mo_id: reqData.moId,
+        // },
+        // data: {
+        //   username: reqData.username,
+        //   password: reqData.password,
+        // },
+      };
+
+      const response = await axios(config);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message)
+    }
+  }
+)
+

@@ -3,16 +3,18 @@ import HighchartsReact from 'highcharts-react-official';
 import { useEffect } from 'react';
 import xrange from 'highcharts/modules/xrange';
 import { memo } from "react";
+import { useSelector } from 'react-redux';
 
 xrange(Highcharts);
 
+
 const DoctorsSemdBarSum = ({clear, percent}) => {
+  const value = Number(percent.toFixed(0)) / 100;
+
   useEffect(() => {
     clear();
   }, [])
-
-  const value = Number(percent.toFixed(0)) / 100;
-
+  
   const options = {
     chart: {
       type: 'xrange',

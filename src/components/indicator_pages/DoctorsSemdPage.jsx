@@ -10,30 +10,51 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import XrangeMock from "../diagrams/diagrams_mock/XrangeMock";
 import { Fade } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchMoMeddocs } from "../../store/slices/ActionCreators";
+import { fetchMoMeddocs, fetchDoctorMeddocs } from "../../store/slices/ActionCreators";
 import dateConverter from "../../utils/dateConverter";
-
-const XrangeList = () => {
-  return(
-  <>
-    <Box>
-      <XrangeMock></XrangeMock>
-    </Box>
-    <Box>
-      <XrangeMock></XrangeMock>
-    </Box>
-  </>
-  )
-}
+import { createSelector } from '@reduxjs/toolkit';
 
 const DoctorsSemdPage = ({clear, handleOpen}) => {
   const [isReveal, setReveal] = useState(false);
   const {diagram2} = useSelector(state => state.diagramDates);
-  const {moList, currentMoId} = useSelector(state => state.moList);
-  const {semdPercent} = useSelector(state => state.doctors);
-  const dispatch = useDispatch();
 
-  const sumPercent = moList.find(({id}) => id === currentMoId).semd_percent
+  // const selectMeddocsSelector = state => state.meddocs;
+
+  // const selectMeddocsPercent = createSelector(selectMeddocsSelector, (meddocs) => {
+  //   return meddocs.moMeddocs.semd_percent;
+  // });
+
+  // const meddocsSumPercent = selectMeddocsPercent();
+
+
+  // const selectMeddocsSpecialities = createSelector(selectMeddocsSelector, (meddocs) => {
+  //   return meddocs.moMeddocs.specialities;
+  // });
+
+  // const specialities = selectMeddocsSpecialities();
+
+  const { meddocsSumPercent, specialities } = useSelector(state => (
+    {
+      meddocsSumPercent: state.meddocs.moMeddocs.semd_percent ? state.meddocs.moMeddocs.semd_percent : 0,
+      specialities: state.meddocs.moMeddocs.specialities ? state.meddocs.moMeddocs.specialities : [],
+    })
+  );
+
+  const returnSpecialitiesList = (specialities) => {
+    const result = [];
+    for (let [key, value] of Object.entries(specialities)) {
+      result.push({key, value});
+    }
+
+    return result;
+  }
+
+  console.log(meddocsSumPercent);
+  console.log(specialities);
+
+  const { moList, currentMoId } = useSelector(state => state.moList);
+
+  const dispatch = useDispatch();
 
   const handleRevealClick = () => {
     setReveal((prev) => !prev);
@@ -48,7 +69,8 @@ const DoctorsSemdPage = ({clear, handleOpen}) => {
       moId: currentMoId,
       date: dateConverter.dateToStrForRequest(diagram2),
     }
-    dispatch(fetchMoMeddocs(reqData))
+
+    dispatch(fetchMoMeddocs(reqData));
   }, [currentMoId, diagram2])
 
   return(
@@ -58,7 +80,9 @@ const DoctorsSemdPage = ({clear, handleOpen}) => {
         Доля врачей, у которых не менее 2 СЭМД
         <Button id="2" size="small" onClick={handleOpen}>Подробно</Button>
       </Typography>
-      <DoctorsSemdBarSum clear={clear} percent={semdPercent}/>
+
+      <DoctorsSemdBarSum clear={clear} percent={meddocsSumPercent}/>
+
       <Grid container sx={{width: "100%"}} direction="column" justifyContent="center" alignItems="center">
         {
           isReveal
@@ -69,16 +93,20 @@ const DoctorsSemdPage = ({clear, handleOpen}) => {
           height: isReveal ? 'auto' : 0,
           transition: 'all 1s ease' 
           }}>
-          <Fade in={isReveal}>
-            <Box>
-              <XrangeMock></XrangeMock>
-            </Box>
-          </Fade>
-          <Fade in={isReveal}>
-            <Box>
-              <XrangeMock></XrangeMock>
-            </Box>
-          </Fade>
+            {
+              console.log(specialities)
+            }
+          {
+            specialities
+            ? returnSpecialitiesList(specialities).map(item =>     
+            <Fade in={isReveal}>
+              <Box> 
+                <XrangeMock></XrangeMock>
+              </Box>
+            </Fade>
+            )
+            : false
+          }
         </Box>
       </Grid>
     </>

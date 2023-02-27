@@ -16,7 +16,6 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem('authToken') && location.pathname !== '/callback') {
       dispatch(checkAuthentication());
-      // dispatch(setAuthFlag(true));
     }
   }, [])
   

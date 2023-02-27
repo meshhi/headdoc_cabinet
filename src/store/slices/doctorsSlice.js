@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchDoctors, fetchMoMeddocs } from "./ActionCreators";
+import { fetchDoctors } from "./ActionCreators";
 
 const initialState = {
   doctors: [],
@@ -26,20 +26,7 @@ export const doctorsSemdSlice = createSlice({
     [fetchDoctors.rejected.type]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
-    },
-    [fetchMoMeddocs.pending.type]: (state) => {
-      state.isLoading = true;
-    },
-    [fetchMoMeddocs.fulfilled.type]: (state, action) => {
-      state.isLoading = false;
-      state.error = '';
-      state.semdPercent = action.payload[0].semd_percent;
-    },
-    [fetchMoMeddocs.rejected.type]: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-    
+    }
   }
 })
 

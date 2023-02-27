@@ -29,6 +29,36 @@ export const fetchMoList = createAsyncThunk(
   }
 )
 
+// doctorsSemdSlice
+export const fetchDoctors = createAsyncThunk(
+  "doctors/fetchAllDoctors",
+  async (reqData, thunkApi) => {
+    try {
+      const config = {
+        method: 'get',
+        url: GET_DOCTOR_LIST,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('authToken')}`
+        },
+        params: { 
+          tvsp_id: reqData.tvspId,
+          mo_id: reqData.moId,
+        },
+
+        // data: {
+        //   username: reqData.username,
+        //   password: reqData.password,
+        // },
+      };
+
+      const response = await axios(config);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message)
+    }
+  }
+)
+
 // userSlice
 export const login = createAsyncThunk(
   "auth/login",
@@ -203,22 +233,21 @@ export const fetchAppointments = createAsyncThunk(
   }
 )
 
-// doctorsSemdSlice
-export const fetchDoctors = createAsyncThunk(
-  "doctors/fetchAllDoctors",
+// meddocsSlice
+export const fetchMoMeddocs = createAsyncThunk(
+  "doctorssemd/moMedDocs",
   async (reqData, thunkApi) => {
     try {
       const config = {
         method: 'get',
-        url: GET_DOCTOR_LIST,
+        url: `${GET_MO_MEDDOCS}${reqData.moId}/${reqData.date}/`,
         headers: {
           'Authorization': `Token ${localStorage.getItem('authToken')}`
         },
-        params: { 
-          tvsp_id: reqData.tvspId,
-          mo_id: reqData.moId,
-        },
-
+        // params: { 
+        //   tvsp_id: reqData.tvspId,
+        //   mo_id: reqData.moId,
+        // },
         // data: {
         //   username: reqData.username,
         //   password: reqData.password,
@@ -233,13 +262,13 @@ export const fetchDoctors = createAsyncThunk(
   }
 )
 
-export const fetchMoMeddocs = createAsyncThunk(
-  "doctors/moMedDocs",
+export const fetchDoctorMeddocs = createAsyncThunk(
+  "doctorssemd/doctorMedDocs",
   async (reqData, thunkApi) => {
     try {
       const config = {
         method: 'get',
-        url: `${GET_MO_MEDDOCS}${reqData.moId}/${reqData.date}`,
+        url: `${GET_DOCTOR_MEDDOCS}${reqData.doctorId}/`,
         headers: {
           'Authorization': `Token ${localStorage.getItem('authToken')}`
         },

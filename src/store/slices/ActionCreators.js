@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { GET_MO_LIST_URL, GET_APPOINTMENTS_URL, LOGIN, LOGIN_ESIA, LOGOUT, GET_DOCTOR_LIST, GET_SIGNED_ESIA_URL, CHECK_AUTHENTICATION, GET_DOCTOR_MO_MEDDOCS } from "../api_urls/apiUrls";
-
+import { GET_MO_LIST_URL, GET_APPOINTMENTS_URL, LOGIN, LOGIN_ESIA, LOGOUT, GET_DOCTOR_LIST, GET_SIGNED_ESIA_URL, CHECK_AUTHENTICATION, GET_MO_MEDDOCS, GET_DOCTOR_MEDDOCS } from "../api_urls/apiUrls";
 
 // moListSlice
 export const fetchMoList = createAsyncThunk(
@@ -29,35 +28,6 @@ export const fetchMoList = createAsyncThunk(
     }
   }
 )
-
-
-// appointmentsSlice
-export const fetchAppointments = createAsyncThunk(
-  "appointments/fetch",
-  async (reqData, thunkApi) => {
-    try {
-      const config = {
-        method: 'get',
-        url: GET_APPOINTMENTS_URL,
-        headers: {
-          // 'Content-Disposition': `attachment; filename=${file.name}`,
-          'Authorization': `Token ${localStorage.getItem('authToken')}`
-        },
-        params: { 
-          date: reqData.date,
-        },
-        // data: data,
-      };
-      
-      const response = await axios(config);
-  
-      return response.data;
-    } catch (error) {
-      return thunkApi.rejectWithValue(error.message)
-    }
-  }
-)
-
 
 // userSlice
 export const login = createAsyncThunk(
@@ -89,34 +59,35 @@ export const login = createAsyncThunk(
   }
 )
 
-export const checkAuthentication = createAsyncThunk(
-  "auth/checkAuthentication",
+export const logout = createAsyncThunk(
+  "auth/logout",
   async (reqData, thunkApi) => {
     try {
-      const data = new FormData();
-      data.append('token', localStorage.getItem('authToken'));
-
       const config = {
         method: 'post',
-        url: CHECK_AUTHENTICATION,
-        // headers: {
-        //   'Content-Disposition': `attachment; filename=${file.name}`
-        // },
+        url: LOGOUT,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('authToken')}`
+        },
         // params: { 
-        //   code: reqData.code,
-        //   state: reqData.state,
+        //   date: reqData.date,
         // },
-        data: data,
+
+        // data: {
+        //   username: reqData.username,
+        //   password: reqData.password,
+        // },
       };
-      
       const response = await axios(config);
-      // localStorage.setItem('authToken', response.data.auth_token);
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(error.message)
+      return thunkApi.rejectWithValue(error.message);
+    } finally {
+      localStorage.removeItem('authToken');
     }
   }
 )
+
 
 export const getEsiaUrl = createAsyncThunk(
   "auth/getEsiaUrl",
@@ -176,35 +147,61 @@ export const loginEsia = createAsyncThunk(
   }
 )
 
-export const logout = createAsyncThunk(
-  "auth/logout",
+export const checkAuthentication = createAsyncThunk(
+  "auth/checkAuthentication",
   async (reqData, thunkApi) => {
     try {
+      const data = new FormData();
+      data.append('token', localStorage.getItem('authToken'));
+
       const config = {
         method: 'post',
-        url: LOGOUT,
-        headers: {
-          'Authorization': `Token ${localStorage.getItem('authToken')}`
-        },
+        url: CHECK_AUTHENTICATION,
+        // headers: {
+        //   'Content-Disposition': `attachment; filename=${file.name}`
+        // },
         // params: { 
-        //   date: reqData.date,
+        //   code: reqData.code,
+        //   state: reqData.state,
         // },
-
-        // data: {
-        //   username: reqData.username,
-        //   password: reqData.password,
-        // },
+        data: data,
       };
+      
       const response = await axios(config);
+      // localStorage.setItem('authToken', response.data.auth_token);
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
-    } finally {
-      localStorage.removeItem('authToken');
+      return thunkApi.rejectWithValue(error.message)
     }
   }
 )
 
+// appointmentsSlice
+export const fetchAppointments = createAsyncThunk(
+  "appointments/fetch",
+  async (reqData, thunkApi) => {
+    try {
+      const config = {
+        method: 'get',
+        url: GET_APPOINTMENTS_URL,
+        headers: {
+          // 'Content-Disposition': `attachment; filename=${file.name}`,
+          'Authorization': `Token ${localStorage.getItem('authToken')}`
+        },
+        params: { 
+          date: reqData.date,
+        },
+        // data: data,
+      };
+      
+      const response = await axios(config);
+  
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message)
+    }
+  }
+)
 
 // doctorsSemdSlice
 export const fetchDoctors = createAsyncThunk(
@@ -242,7 +239,7 @@ export const fetchMoMeddocs = createAsyncThunk(
     try {
       const config = {
         method: 'get',
-        url: `${GET_DOCTOR_MO_MEDDOCS}${reqData.moId}/${reqData.date}`,
+        url: `${GET_MO_MEDDOCS}${reqData.moId}/${reqData.date}`,
         headers: {
           'Authorization': `Token ${localStorage.getItem('authToken')}`
         },

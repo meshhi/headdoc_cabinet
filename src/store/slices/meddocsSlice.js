@@ -33,7 +33,7 @@ export const meddocsSlice = createSlice({
     [fetchDoctorMeddocs.fulfilled.type]: (state, action) => {
       state.isLoading = false;
       state.error = '';
-      state.doctorMeddocs = action.payload[0];
+      state.doctorMeddocs = action.payload;
     },
     [fetchDoctorMeddocs.rejected.type]: (state, action) => {
       state.isLoading = false;

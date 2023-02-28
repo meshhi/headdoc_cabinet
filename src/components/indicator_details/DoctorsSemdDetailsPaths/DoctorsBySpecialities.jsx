@@ -10,7 +10,7 @@ import { Typography } from "@mui/material";
 import dateConverter from "../../../utils/dateConverter";
 import { fetchDoctorMeddocs } from "../../../store/slices/ActionCreators";
 
-const DoctorsBySpecialities = ({clear, handleOpen, tileType, specialityId}) => {
+const DoctorsBySpecialities = ({clear, handleOpen, tileType, specialityId, openModal}) => {
   const dispatch = useDispatch();
   const [isWatermarkFound, setWatermarkFound] = useState(false);
   const [noDataFlag, setNoDataFlag] = useState(false);
@@ -151,6 +151,15 @@ const DoctorsBySpecialities = ({clear, handleOpen, tileType, specialityId}) => {
               // rowsPerPageOptions={[5]}
               // checkboxSelection
               disableSelectionOnClick
+              onRowClick={(params, event, details) => {
+                openModal(null, '5', {
+                  docId: params.id,
+                  firstName: params.row.firstName,
+                  secondName: params.row.secondName,
+                  lastName: params.row.lastName,
+                  snils: params.row.snils,
+                });
+              }}
               experimentalFeatures={{ newEditingApi: true }}
             />
           } 

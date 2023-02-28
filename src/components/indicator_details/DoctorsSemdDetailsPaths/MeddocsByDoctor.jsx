@@ -1,4 +1,4 @@
-import { fetchDoctors, fetchMoMeddocs } from "../../store/slices/ActionCreators";
+import { fetchDoctors } from "../../../store/slices/ActionCreators";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState, useLayoutEffect } from "react";
 import CircularProgress from '@mui/material/CircularProgress';
@@ -7,9 +7,10 @@ import { Grid } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import { DataGridPremium } from '@mui/x-data-grid-premium';
 import { Typography } from "@mui/material";
-import dateConverter from "../../utils/dateConverter";
+import dateConverter from "../../../utils/dateConverter";
+import { fetchDoctorMeddocs } from "../../../store/slices/ActionCreators";
 
-const DoctorsSemdDetails = ({clear, handleOpen, tileType, openModal}) => {
+const MeddocsByDoctor = ({clear, handleOpen, tileType, doctorId, doctorOptions}) => {
   const dispatch = useDispatch();
   const [isWatermarkFound, setWatermarkFound] = useState(false);
   const [noDataFlag, setNoDataFlag] = useState(false);
@@ -17,7 +18,8 @@ const DoctorsSemdDetails = ({clear, handleOpen, tileType, openModal}) => {
   const {currentMoId, currentMoName} = useSelector(state => state.moList);
   const {doctors, isLoading: doctorsLoading, error} = useSelector(state => state.doctors)
   const {diagram2} = useSelector(state => state.diagramDates);
-  const {moMeddocs, isLoading: momeddocsLoading, momeddocsError} = useSelector(state => state.meddocs);
+
+  const {doctorMeddocs, isLoading: isLoadingMeddocs, error: errorMeddocs} = useSelector(state => state.meddocs);
 
   const clearMUIWatermark = () => {
     let xpath = "//div[text()='MUI X: Missing license key']";
@@ -40,79 +42,58 @@ const DoctorsSemdDetails = ({clear, handleOpen, tileType, openModal}) => {
       findWM(intervalId)}, 1);
   }
   
-  const currentMoDoctors = useSelector(state => {
-      const doctors = state.doctors.doctors;
-
-      return doctors.map(record => {
-        try {
-          return {
-            id: record.id,
-            firstName: record?.first_name ? record.first_name[0] : '-',
-            lastName: record?.last_name ? record.last_name[0] : '-',
-            secondName: record?.second_name ? record.second_name[0] : '-',
-            snils: record.snils,
-            moId: record.mo,
-          }
-        } catch(e) {
-          columns.warn(record);
-        }
-      })
-    }
-  );
-
-  const transformSpecialities = (specialities) => {
-    const result = [];
-    for (let key of Object.keys(specialities)) {
-      result.push({
-        id: key,
-        ...specialities[key],
-      })
-    }
-    return result;
-  }
-
-  const columns = [
-    { field: 'id', headerName: 'ID специальности', width: 90 },
-    {
-      field: 'title',
-      headerName: 'Специальность',
-      width: 700,
-      // editable: true,
-    },
-    {
-      field: 'percent',
-      headerName: 'Процент',
-      width: 150,
-      // editable: true,
-    },
-
-  ];
-  
   useEffect(() => {
     const reqData = {
-      moId: currentMoId,
-      tvspId: null,
+      doctorId: doctorId,
     }
-
-    dispatch(fetchDoctors(reqData));
-  }, [currentMoId]);
+    dispatch(fetchDoctorMeddocs(reqData));
+  }, []);
 
   useEffect(() => {
-    if (!doctors.length && !noDataFlag) {
+    if (!doctorMeddocs?.length && !noDataFlag) {
       setNoDataFlag(true);
     } else {
       setNoDataFlag(false);
     }
-  }, [doctors])
+  }, [doctorMeddocs])
 
   useLayoutEffect(() => {
     // clearMUIWatermark();
   }, [])
 
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 90 },
+    { field: 'doctor', headerName: 'ID доктор', width: 90 },
+    {
+      field: 'doc_type',
+      headerName: 'Тип ЭМД',
+      width: 700,
+      // editable: true,
+    },
+    {
+      field: 'sign',
+      headerName: 'Подпись врача',
+      width: 150,
+      // editable: true,
+    },
+    {
+      field: 'org_sign',
+      headerName: 'Подпись МО',
+      width: 150,
+      // editable: true,
+    },
+    {
+      field: 'doc_count',
+      headerName: 'Количество',
+      width: 150,
+      // editable: true,
+    },
+  ];
+
   return(
     <>
       {
-        doctorsLoading
+        isLoadingMeddocs
         ? <Box sx={{ display: 'flex' }}>
             <CircularProgress />
           </Box>
@@ -120,7 +101,8 @@ const DoctorsSemdDetails = ({clear, handleOpen, tileType, openModal}) => {
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
           <Grid container >
             <Grid>
-              <Typography variant="h5" sx={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', }}>Врачи-СЭМД {dateConverter.dateToStrForRequest(diagram2)}</Typography>
+              <Typography variant="h5" sx={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', }}>{doctorOptions.firstName} {doctorOptions.secondName}
+              {doctorOptions.lastName} {dateConverter.dateToStrForRequest(diagram2)}</Typography>
             </Grid>
             <Grid>
               <Typography variant="h5" sx={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', }}>: {currentMoName}</Typography>
@@ -132,28 +114,17 @@ const DoctorsSemdDetails = ({clear, handleOpen, tileType, openModal}) => {
           noDataFlag 
             ? 'NO DATA'
             : <DataGridPremium
-              rows={transformSpecialities(moMeddocs.specialities)}
+              rows={doctorMeddocs ? doctorMeddocs : []}
               columns={columns}
-              // pageSize={5}
-              // rowsPerPageOptions={[5]}
-              // checkboxSelection
               disableSelectionOnClick
-              onRowClick={(params, event, details) => {
-                openModal(null, '4', {
-                  specId: params.id,
-                });
-              }}
               experimentalFeatures={{ newEditingApi: true }}
             />
           } 
           </div>
         </div>
       }
-      {/* {
-        doctors.map(doc => console.log(doc))
-      } */}
     </>
   )
 }
 
-export default DoctorsSemdDetails;
+export default MeddocsByDoctor;

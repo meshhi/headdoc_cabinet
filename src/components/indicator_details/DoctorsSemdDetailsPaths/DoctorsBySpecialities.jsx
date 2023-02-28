@@ -1,4 +1,4 @@
-import { fetchDoctors, fetchMoMeddocs } from "../../store/slices/ActionCreators";
+import { fetchDoctors } from "../../../store/slices/ActionCreators";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState, useLayoutEffect } from "react";
 import CircularProgress from '@mui/material/CircularProgress';
@@ -7,9 +7,10 @@ import { Grid } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import { DataGridPremium } from '@mui/x-data-grid-premium';
 import { Typography } from "@mui/material";
-import dateConverter from "../../utils/dateConverter";
+import dateConverter from "../../../utils/dateConverter";
+import { fetchDoctorMeddocs } from "../../../store/slices/ActionCreators";
 
-const DoctorsSemdDetails = ({clear, handleOpen, tileType}) => {
+const DoctorsBySpecialities = ({clear, handleOpen, tileType, specialityId}) => {
   const dispatch = useDispatch();
   const [isWatermarkFound, setWatermarkFound] = useState(false);
   const [noDataFlag, setNoDataFlag] = useState(false);
@@ -17,7 +18,6 @@ const DoctorsSemdDetails = ({clear, handleOpen, tileType}) => {
   const {currentMoId, currentMoName} = useSelector(state => state.moList);
   const {doctors, isLoading: doctorsLoading, error} = useSelector(state => state.doctors)
   const {diagram2} = useSelector(state => state.diagramDates);
-  const {moMeddocs, isLoading: momeddocsLoading, momeddocsError} = useSelector(state => state.meddocs);
 
   const clearMUIWatermark = () => {
     let xpath = "//div[text()='MUI X: Missing license key']";
@@ -60,42 +60,55 @@ const DoctorsSemdDetails = ({clear, handleOpen, tileType}) => {
     }
   );
 
-  const transformSpecialities = (specialities) => {
-    const result = [];
-    for (let key of Object.keys(specialities)) {
-      result.push({
-        id: key,
-        ...specialities[key],
-      })
-    }
-    return result;
-  }
-
   const columns = [
-    { field: 'id', headerName: 'ID специальности', width: 90 },
+    { field: 'id', headerName: 'ID', width: 90 },
     {
-      field: 'title',
-      headerName: 'Специальность',
+      field: 'firstName',
+      headerName: 'Имя',
       width: 700,
       // editable: true,
     },
     {
-      field: 'percent',
-      headerName: 'Процент',
+      field: 'lastName',
+      headerName: 'Фамилия',
       width: 150,
       // editable: true,
     },
-
+    {
+      field: 'secondName',
+      headerName: 'Отчество',
+      type: 'number',
+      width: 110,
+      // editable: true,
+    },
+    {
+      field: 'snils',
+      headerName: 'СНИЛС',
+      description: 'This column has a value getter and is not sortable.',
+      sortable: true,
+      width: 160,
+      // valueGetter: (params) =>
+      //   `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    },
+    {
+      field: 'moId',
+      headerName: 'ИД ТВСП',
+      description: 'This column has a value getter and is not sortable.',
+      sortable: true,
+      width: 160,
+      // valueGetter: (params) =>
+      //   `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    },
   ];
   
   useEffect(() => {
     const reqData = {
       moId: currentMoId,
       tvspId: null,
+      specId: specialityId ? specialityId : null,
     }
-
     dispatch(fetchDoctors(reqData));
-  }, [currentMoId]);
+  }, []);
 
   useEffect(() => {
     if (!doctors.length && !noDataFlag) {
@@ -132,7 +145,7 @@ const DoctorsSemdDetails = ({clear, handleOpen, tileType}) => {
           noDataFlag 
             ? 'NO DATA'
             : <DataGridPremium
-              rows={transformSpecialities(moMeddocs.specialities)}
+              rows={currentMoDoctors}
               columns={columns}
               // pageSize={5}
               // rowsPerPageOptions={[5]}
@@ -151,4 +164,4 @@ const DoctorsSemdDetails = ({clear, handleOpen, tileType}) => {
   )
 }
 
-export default DoctorsSemdDetails;
+export default DoctorsBySpecialities;

@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 xrange(Highcharts);
 
 
-const DoctorsSemdBarSum = ({clear, percent}) => {
+const DoctorsSemdBarSum = ({clear, percent, openModal}) => {
   const value = Number(percent.toFixed(0)) / 100;
 
   useEffect(() => {
@@ -67,6 +67,9 @@ const DoctorsSemdBarSum = ({clear, percent}) => {
       name: 'test',
       partialFill: {
         fill: value < 0.2 ? "#ff5b60" : value < 0.7 ? "#ffc372" : "#00db9d" //graph color
+      },
+      events: {
+        click: () => openModal(null, '2')
       }
     }]
   }

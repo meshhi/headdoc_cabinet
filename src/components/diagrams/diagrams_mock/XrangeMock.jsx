@@ -5,8 +5,12 @@ import xrange from 'highcharts/modules/xrange';
 
 xrange(Highcharts);
 
-const XrangeMock = ({clear, resultPercent}) => {
-  const value = 0.2;
+const XrangeMock = ({clear, percent, specialityId, title, openModal}) => {
+  const value = Number(percent.toFixed(0)) / 100;
+
+  useEffect(() => {
+    clear();
+  }, [])
 
   const options = {
     chart: {
@@ -60,15 +64,25 @@ const XrangeMock = ({clear, resultPercent}) => {
       name: 'test',
       partialFill: {
         fill: value < 0.2 ? "#ff5b60" : value < 0.7 ? "#ffc372" : "#00db9d" //graph color
+      },
+      events: {
+        click: () => {
+          openModal(null, '4', {
+            specId: specialityId
+          });
+        }
       }
     }]
   }
 
   return(
-    <HighchartsReact
-      highcharts={Highcharts}
-      options={options}
-    />
+    <>
+      <div>{specialityId} {title}</div>
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={options}
+      />
+    </>
   )
 }
 

@@ -16,6 +16,7 @@ import { TextField } from '@mui/material';
 import Tile from './Tile'
 import TileModal from "./TileModal";
 import TileSkeleton from "./TileSkeleton";
+import DoctorsBySpecialities from '../indicator_details/DoctorsSemdDetailsPaths/DoctorsBySpecialities';
 // tile pages
 import AppointmentsPage from "../indicator_pages/AppointmentsPage";
 import DoctorsSemdPage from "../indicator_pages/DoctorsSemdPage";
@@ -51,16 +52,40 @@ export const TilesPage = ({modalPortal, clearHighchartsCredentials}) => {
   // content for modal
   const [content, setContent] = useState("1");
   //modal state
+  const [modalOptions, setModalOptions] = useState({});
   const [open, setOpen] = useState(false);
-  const handleOpen = (event) => {
+  const handleOpen = (event, id, options = null) => {
       setOpen(true);
-      setContent(event.target.id);
+      if (event) {
+        setContent(event.target.id);
+      } else {
+        setContent(id);
+      }
+
+      if (options) {
+        setModalOptions(options)
+      }
     }
   const handleClose = () => setOpen(false);
 
   // autocomplete
   const changeHandler = (event, newValue) => {
     dispatch(setCurrentMo({id: newValue.id, name: newValue.label}));
+  }
+
+  const openModalById = (id) => {
+    switch(id) {
+      case("1"):
+        return <AppointmentsDetails />
+      case("2"):
+        return <DoctorsSemdDetails />
+      case("3"):
+        return <SemdsMSDetails />
+      case("4"):
+        return <DoctorsBySpecialities specialityId={modalOptions.specId ? modalOptions.specId : false}/>
+      default:
+        return <ErrorMsg errorTitle="Неправильная модалка" errorContent="Ну реально неправильная, алло"/>
+    }
   }
 
   // effects
@@ -124,7 +149,7 @@ export const TilesPage = ({modalPortal, clearHighchartsCredentials}) => {
         </Grid>
       </Grid>
       <TileModal open={open} handleClose={handleClose}>
-        {
+        {/* {
           // это ужасная конструкция, извините...
           content === "1"
             ? <AppointmentsDetails />
@@ -133,6 +158,10 @@ export const TilesPage = ({modalPortal, clearHighchartsCredentials}) => {
               : content === "3"
                 ? <SemdsMSDetails />
                 : <ErrorMsg errorTitle="Неправильная модалка" errorContent="Ну реально неправильная, алло"/>
+        } */}
+
+        {
+          openModalById(content)
         }
       </TileModal>  
     </>

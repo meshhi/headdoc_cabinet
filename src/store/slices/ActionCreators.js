@@ -31,7 +31,7 @@ export const fetchMoList = createAsyncThunk(
 
 // doctorsSemdSlice
 export const fetchDoctors = createAsyncThunk(
-  "doctors/fetchAllDoctors",
+  "doctors/fetchDoctors",
   async (reqData, thunkApi) => {
     try {
       const config = {
@@ -43,6 +43,7 @@ export const fetchDoctors = createAsyncThunk(
         params: { 
           tvsp_id: reqData.tvspId,
           mo_id: reqData.moId,
+          spec_code: reqData.specId,
         },
 
         // data: {
